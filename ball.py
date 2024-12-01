@@ -1,6 +1,5 @@
 import pygame.draw
 
-
 class Ball:
     def __init__(self, size:int = 20, x:int = 0, y:int = 0,vx:float = 0, vy: float =0
                  , color: str='', count: int=1, id: int = 0):
@@ -25,4 +24,8 @@ class Ball:
         if self.y - self.size < 0 or self.y + self.size > self.screen_height:
             self.vy = -self.vy
 
-
+    def on_hit_paddle(self, paddle):
+        if self.x - self.size < 0 or self.x + self.size > paddle.width:
+            self.vx = -self.vx
+        if self.y - self.size < 0 or self.y + self.size > paddle.height:
+            self.vy = -self.vy
