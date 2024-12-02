@@ -12,6 +12,5 @@ class MysteryBlock:
         self.screen_width = 800
         self.screen_height = 600
 
-    def draw(self):
-        display = pygame.display.set_mode((self.screen_width, self.screen_height))
+    def draw(self, display):
         pygame.draw.rect(display,self.color, (self.x, self.y), 30, 3)
