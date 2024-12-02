@@ -29,3 +29,4 @@ class Ball:
             self.vx = -self.vx
         if self.y - self.size < 0 or self.y + self.size > paddle.height:
             self.vy = -self.vy
+
