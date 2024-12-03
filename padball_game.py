@@ -3,7 +3,6 @@ import sys
 
 import pygame
 from obj.ball import Ball
-from obj.floating_ball import FloatingBall
 from components.button import Button
 
 
@@ -20,12 +19,11 @@ class PadBallGame:
         self.state = "home"
         self.username = ''
 
-        self.balls = {
-            "game_ball": Ball(20, x=self.screen_width // 2, y=self.screen_height // 2
-                              , vx=5, vy=4, color=(0, 255, 0), count=1
-                              , screen_width=self.screen_width, screen_height=self.screen_height),
-            "floating_ball": FloatingBall()
-        }
+        self.floating_balls = [Ball(random.randint(10, 30), x = random.randint(50, 550)
+                             , y = random.randint(50, 750), vx = random.choice([-2, 2]), vy = random.choice([-2, 2])
+                             , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
+                             , screen_width=self.screen_width, screen_height = self.screen_height)
+                               for i in range(20)]
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -34,11 +32,11 @@ class PadBallGame:
         }
 
         self.buttons = {
-            "start": Button(300, 300, 200, 60, "Start Game", (255, 255, 255), (0, 200, 0)),
+            "start": Button(200, 300, 200, 60, "Start Game", (255, 255, 255), (0, 200, 0)),
             "settings": Button(300, 400, 200, 60, "Settings", (255, 255, 255), (100, 100, 100)),
             "leaderboard":  Button(200, 400, 200, 60, "Leaderboard", (255, 255, 255), (0, 0, 200)),
             "logout": Button(200, 500, 200, 60, "Logout", (255, 255, 255), (200, 128, 0)),
-            "exit": Button(300, 500, 200, 60, "Exit", (255, 255, 255), (200, 0, 0)),
+            "exit": Button(200, 600, 200, 60, "Exit", (255, 255, 255), (200, 0, 0)),
             "back": Button(300, 500, 200, 60, "Back", (255, 255, 255), (100, 100, 100)),
             "login_button": Button(200, 600, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0))
         }
@@ -94,16 +92,17 @@ class PadBallGame:
             """"""
 
             """ Floating ball """
-            self.balls['floating_ball'].draw(self.screen)
-            self.balls['floating_ball'].updates()
+            for balls in self.floating_balls:
+                balls.updates()
+                balls.draw(self.screen)
             """"""
 
-            title_text = self.fonts['Large'].render("Welcome, " + self.username, True, (255, 255, 255))
+            title_text = self.fonts['Medium'].render("Welcome to PadBallGame V.1" + self.username, True, (0, 0, 0))
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             self.buttons['start'].draw(self.screen)
             self.buttons['leaderboard'].draw(self.screen)
             self.buttons['logout'].draw(self.screen)
-            self.buttons['Exit'].draw(self.screen)
+            self.buttons['exit'].draw(self.screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
