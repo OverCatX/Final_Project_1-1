@@ -18,6 +18,7 @@ class PadBallGame:
         self.running = True
         self.font_large = pygame.font.Font(None, 74)
         self.font_medium = pygame.font.Font(None, 36)
+        self.font_small = pygame.font.Font(None, 26)
         self.state = "authorization"
         self.username = ''
 
@@ -35,16 +36,19 @@ class PadBallGame:
 
         self.color_codes = {
             'white': (255, 255, 255),
-            'black': (0, 0, 0)
+            'black': (0, 0, 0),
+            'gray' : (128,128,128)
         }
 
     def authorization_screen(self):
         while self.state == 'authorization':
             """Set White Background Screen"""
             self.screen.fill(self.color_codes['white'])
-            title_text = self.font_large.render("Enter Your Username", True, self.color_codes['black'])
-            self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             """"""
+            title_text = self.font_large.render("Enter Your Username", True, self.color_codes['black'])
+            subtitle_text = self.font_small.render("The length of the name must not exceed 10 characters.", True, self.color_codes['gray'])
+            self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
+            self.screen.blit(subtitle_text, (self.screen_width // 2 - subtitle_text.get_width() // 2, 200))
 
             """Display the username being typed"""
             username_surface = self.font_medium.render(self.username, True, (255, 255, 255))
@@ -74,7 +78,12 @@ class PadBallGame:
             self.clock.tick(60)
 
     def home_screen(self):
+        while self.state == 'home':
+            """Set White Background Screen"""
+            self.screen.fill(self.color_codes['white'])
+            """"""
         pass
+
 
     def run(self):
         while self.running:
@@ -84,3 +93,6 @@ class PadBallGame:
                 self.home_screen()
         pygame.quit()
         sys.exit()
+
+padball = PadBallGame()
+padball.run()
