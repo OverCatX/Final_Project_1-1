@@ -72,3 +72,15 @@ class PadBallGame:
 
             pygame.display.flip()
             self.clock.tick(60)
+
+    def home_screen(self):
+        pass
+
+    def run(self):
+        while self.running:
+            if self.state == 'authorization':
+                self.authorization_screen()
+            elif self.state == 'home':
+                self.home_screen()
+        pygame.quit()
+        sys.exit()
