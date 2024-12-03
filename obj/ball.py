@@ -1,8 +1,10 @@
 import pygame.draw
 
+
 class Ball:
-    def __init__(self, size:int = 20, x:int = 0, y:int = 0,vx:float = 0, vy: float =0
-                 , color: str='', count: int=1, id: int = 0, screen_width: int=800, screen_height: int=600):
+    def __init__(self, size: int = 20, x: int = 0, y: int = 0, vx: float = 0, vy: float = 0
+                 , color: tuple[int, int, int] = (0, 0, 0), count: int = 1, id: int = 0
+                 , screen_width: int = 800, screen_height: int = 600):
         self.size = size
         self.x = x
         self.y = y
@@ -15,7 +17,7 @@ class Ball:
         self.screen_height = screen_height
 
     def draw(self, display):
-        pygame.draw.circle(display,self.color, (self.x, self.y), self.size)
+        pygame.draw.circle(display, self.color, (self.x, self.y), self.size)
 
     def updates(self, paddle):
         self.x += self.vx
@@ -35,4 +37,3 @@ class Ball:
             self.vx = -self.vx
         if self.y - self.size < 0 or self.y + self.size > paddle.height:
             self.vy = -self.vy
-
