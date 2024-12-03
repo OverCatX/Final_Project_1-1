@@ -124,8 +124,6 @@ class PadBallGame:
 
             pygame.display.flip()
             self.clock.tick(60)
-        pass
-
 
     def run(self):
         while self.running:
