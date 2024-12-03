@@ -40,7 +40,7 @@ class PadBallGame:
             "logout": Button(200, 500, 200, 60, "Logout", (255, 255, 255), (200, 128, 0)),
             "exit": Button(300, 500, 200, 60, "Exit", (255, 255, 255), (200, 0, 0)),
             "back": Button(300, 500, 200, 60, "Back", (255, 255, 255), (100, 100, 100)),
-            "login_buttom": Button(200, 600, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0))
+            "login_button": Button(200, 600, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0))
         }
 
         self.color_codes = {
