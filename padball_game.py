@@ -16,15 +16,18 @@ class PadBallGame:
         pygame.display.set_caption("PadBallGame V.1")
         self.clock = pygame.time.Clock()
         self.running = True
-        self.font_large = pygame.font.Font(None, 74)
-        self.font_medium = pygame.font.Font(None, 36)
-        self.font_small = pygame.font.Font(None, 26)
         self.state = "authorization"
         self.username = ''
 
         self.ball = Ball(20, x=self.screen_width // 2, y=self.screen_height // 2
                          , vx=5, vy=4, color=(0, 255, 0), count=1, id=random.randint(1000, 2000)
                          , screen_width=self.screen_width, screen_height=self.screen_height)
+
+        self.fonts = {
+            "Large": pygame.font.Font(None, 74),
+            "Medium": pygame.font.Font(None, 36),
+            "Small": pygame.font.Font(None, 26)
+        }
 
         self.buttons = {
             "start": Button(300, 300, 200, 60, "Start Game", (255, 255, 255), (0, 200, 0)),
@@ -45,13 +48,14 @@ class PadBallGame:
             """Set White Background Screen"""
             self.screen.fill(self.color_codes['white'])
             """"""
-            title_text = self.font_large.render("Enter Your Username", True, self.color_codes['black'])
-            subtitle_text = self.font_small.render("The length of the name must not exceed 10 characters.", True, self.color_codes['gray'])
+
+            title_text = self.fonts['Large'].render("Enter Your Username", True, self.color_codes['black'])
+            subtitle_text = self.fonts['Small'].render("The length of the name must not exceed 10 characters.", True, self.color_codes['gray'])
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             self.screen.blit(subtitle_text, (self.screen_width // 2 - subtitle_text.get_width() // 2, 200))
 
             """Display the username being typed"""
-            username_surface = self.font_medium.render(self.username, True, (255, 255, 255))
+            username_surface = self.fonts['Medium'].render(self.username, True, (255, 255, 255))
             pygame.draw.rect(self.screen, (50, 50, 50), (100, 350, 400, 50))
             self.screen.blit(username_surface, (110, 360))
             """"""
