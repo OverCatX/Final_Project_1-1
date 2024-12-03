@@ -3,21 +3,18 @@ import pygame.draw
 
 class Ball:
     def __init__(self, size: int = 20, x: int = 0, y: int = 0, vx: float = 0, vy: float = 0
-                 , color: tuple[int, int, int] = (0, 0, 0), count: int = 1
-                 , screen_width: int = 800, screen_height: int = 600):
+                 , color: tuple[int, int, int] = (0, 0, 0), screen_width: int = 800, screen_height: int = 600):
         self.size = size
         self.x = x
         self.y = y
         self.vx = vx
         self.vy = vy
         self.color = color
-        self.count = count
         self.screen_width = screen_width
         self.screen_height = screen_height
 
     def draw(self, display):
-        for i in range(self.count):
-            pygame.draw.circle(display, self.color, (self.x, self.y), self.size)
+        pygame.draw.circle(display, self.color, (self.x, self.y), self.size)
 
     def updates(self, paddle = None):
         self.x += self.vx
