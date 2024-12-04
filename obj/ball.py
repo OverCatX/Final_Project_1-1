@@ -1,5 +1,6 @@
 import pygame.draw
 
+from ..padball_game import PadBallGame
 
 class Ball:
     def __init__(self, size: int = 20, x: int = 0, y: int = 0, vx: float = 0, vy: float = 0
@@ -33,5 +34,7 @@ class Ball:
     def on_hit_paddle(self, paddle):
         if self.x - self.size < 0 or self.x + self.size > paddle.width:
             self.vx = -self.vx
+            PadBallGame.hit_paddle_sound.play()
         if self.y - self.size < 0 or self.y + self.size > paddle.height:
             self.vy = -self.vy
+            PadBallGame.hit_paddle_sound.play()
