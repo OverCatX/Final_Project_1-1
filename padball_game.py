@@ -25,7 +25,7 @@ class PadBallGame:
                              , y = random.randint(50, 750), vx = random.choice([-2, 2]), vy = random.choice([-2, 2])
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
-                               for i in range(15)]
+                               for i in range(12)]
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -81,6 +81,7 @@ class PadBallGame:
                         self.username += event.unicode
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
+
                     """ Enter Game button """
                     if self.buttons['login_button'].is_clicked(mouse_pos) and self.username.strip():
                         player_db = PlayerDB()
@@ -103,7 +104,7 @@ class PadBallGame:
                 balls.draw(self.screen)
             """"""
 
-            title_text = self.fonts['Medium'].render("Welcome to PadBallGame V.1" + self.username, True, (0, 0, 0))
+            title_text = self.fonts['Medium'].render("Welcome to PadBallGame V.1", True, (0, 0, 0))
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             self.buttons['start'].draw(self.screen)
             self.buttons['leaderboard'].draw(self.screen)
@@ -142,6 +143,10 @@ class PadBallGame:
                 balls.draw(self.screen)
             """"""
 
+            title_text = self.fonts['Medium'].render(f"Welcome's {self.player.username}", True, (0, 0, 0))
+            self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
+            pygame.display.flip()
+            self.clock.tick(60)
 
     def run(self):
         while self.running:
