@@ -6,11 +6,15 @@ from obj.ball import Ball
 from db.player_db import PlayerDB
 from components.button import Button
 
-
 class PadBallGame:
+
+    # Static Sound
+    hit_paddle_sound = pygame.mixer.Sound('sounds/hit_paddle_sound.wav')
+    hit_wall_sound = pygame.mixer.Sound('sounds/hit_wall_sound.wav')
 
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         self.screen_width = 600
         self.screen_height = 800
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
@@ -20,6 +24,11 @@ class PadBallGame:
         self.state = "home"
         self.username = ''
         self.player = None
+
+        """ Background Sounds no cc. for gameplay >< """
+        pygame.mixer.music.load("sounds/background_music.wav")
+        pygame.mixer.music.play(-1)
+        """"""
 
         self.floating_balls = [Ball(random.randint(10, 30), x = random.randint(50, 550)
                              , y = random.randint(50, 750), vx = random.choice([-2, 2]), vy = random.choice([-2, 2])
@@ -37,7 +46,7 @@ class PadBallGame:
             "start": Button(200, 300, 200, 60, "Start Game", (255, 255, 255), (0, 200, 0)),
             "settings": Button(300, 400, 200, 60, "Settings", (255, 255, 255), (100, 100, 100)),
             "leaderboard":  Button(200, 400, 200, 60, "Leaderboard", (255, 255, 255), (0, 0, 200)),
-            "logout": Button(200, 500, 200, 60, "Logout", (255, 255, 255), (200, 128, 0)),
+            "report": Button(200, 500, 200, 60, "Report", (255, 255, 255), (200, 128, 0)),
             "exit": Button(200, 600, 200, 60, "Exit", (255, 255, 255), (200, 0, 0)),
             "back": Button(300, 500, 200, 60, "Back", (255, 255, 255), (100, 100, 100)),
             "login_button": Button(200, 600, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0))
@@ -60,7 +69,7 @@ class PadBallGame:
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             self.screen.blit(subtitle_text, (self.screen_width // 2 - subtitle_text.get_width() // 2, 200))
 
-            """Display the username being typed"""
+            """ Display the username being typed """
             username_surface = self.fonts['Medium'].render(self.username, True, (255, 255, 255))
             pygame.draw.rect(self.screen, (50, 50, 50), (100, 350, 400, 50))
             self.screen.blit(username_surface, (110, 360))
@@ -108,11 +117,12 @@ class PadBallGame:
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             self.buttons['start'].draw(self.screen)
             self.buttons['leaderboard'].draw(self.screen)
-            self.buttons['logout'].draw(self.screen)
+            self.buttons['report'].draw(self.screen)
             self.buttons['exit'].draw(self.screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    pygame.mixer.music.stop()
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -121,8 +131,7 @@ class PadBallGame:
                         self.state = "authorization"
                     elif self.buttons['leaderboard'].is_clicked(mouse_pos):
                         print("Leaderboard clicked!")
-                    elif self.buttons['logout'].is_clicked(mouse_pos):
-                        self.username = ""
+                    elif self.buttons['report'].is_clicked(mouse_pos):
                         self.state = "home"
                     elif self.buttons['exit'].is_clicked(mouse_pos):
                         pygame.quit()
