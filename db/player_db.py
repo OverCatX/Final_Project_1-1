@@ -1,5 +1,6 @@
 import csv
 import os.path
+from .player import Player
 
 database_file = 'players.csv'
 
@@ -9,7 +10,7 @@ class PlayerDB:
         if not os.path.exists(self.players_db):
             with open(self.players_db, mode='w') as file:
                 writer = csv.writer(file)
-                writer.writerow(['Username', 'HighScore'])
+                writer.writerow(['Username', 'HighScore', 'ReleaseScore'])
 
     def player_exists(self, username) -> bool:
         with open(self.players_db, mode='r') as file:
@@ -24,6 +25,10 @@ class PlayerDB:
                 writer = csv.writer(file)
                 writer.writerow([username, 0])
             print(f'{username} was added to Database')
-            return username
+            return Player(username, 0, 0)
         else:
-            return username
+            with open(self.players_db, mode='r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['Username'] == username:
+                        return Player(row['Username'], row['HighScore'], row['ReleaseScore'])
