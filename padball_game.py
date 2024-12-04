@@ -3,6 +3,7 @@ import sys
 
 import pygame
 from obj.ball import Ball
+from db.player_db import PlayerDB
 from components.button import Button
 
 
@@ -18,12 +19,13 @@ class PadBallGame:
         self.running = True
         self.state = "home"
         self.username = ''
+        self.player = None
 
         self.floating_balls = [Ball(random.randint(10, 30), x = random.randint(50, 550)
                              , y = random.randint(50, 750), vx = random.choice([-2, 2]), vy = random.choice([-2, 2])
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
-                               for i in range(20)]
+                               for i in range(15)]
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -75,12 +77,16 @@ class PadBallGame:
                         self.username = self.username[:-1]
                     elif event.key == pygame.K_RETURN and self.username.strip():
                         self.state = "home"
-                    elif len(self.username) < 20:
+                    elif len(self.username) < 10:
                         self.username += event.unicode
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
+                    """ Enter Game button """
                     if self.buttons['login_button'].is_clicked(mouse_pos) and self.username.strip():
-                        self.state = "home"
+                        player_db = PlayerDB()
+                        self.player = player_db.player_login(self.username)
+                        self.state = "lobby"
+                    """"""
 
             pygame.display.flip()
             self.clock.tick(60)
@@ -111,12 +117,12 @@ class PadBallGame:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.buttons['start'].is_clicked(mouse_pos):
-                        self.state = "on_game"  # Start the game
+                        self.state = "authorization"
                     elif self.buttons['leaderboard'].is_clicked(mouse_pos):
                         print("Leaderboard clicked!")
                     elif self.buttons['logout'].is_clicked(mouse_pos):
                         self.username = ""
-                        self.state = "username"
+                        self.state = "home"
                     elif self.buttons['exit'].is_clicked(mouse_pos):
                         pygame.quit()
                         sys.exit()
@@ -124,12 +130,27 @@ class PadBallGame:
             pygame.display.flip()
             self.clock.tick(60)
 
+    def lobby_screen(self):
+        while self.state == 'lobby':
+            """ Set White Background Screen """
+            self.screen.fill(self.color_codes['white'])
+            """"""
+
+            """ Floating ball """
+            for balls in self.floating_balls:
+                balls.updates()
+                balls.draw(self.screen)
+            """"""
+
+
     def run(self):
         while self.running:
             if self.state == 'authorization':
                 self.authorization_screen()
             elif self.state == 'home':
                 self.home_screen()
+            elif self.state == 'lobby':
+                self.lobby_screen()
         pygame.quit()
         sys.exit()
 
