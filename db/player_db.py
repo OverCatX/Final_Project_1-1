@@ -2,7 +2,7 @@ import csv
 import os.path
 from .player import Player
 
-database_file = 'players.csv'
+database_file = 'db/players.csv'
 
 class PlayerDB:
     def __init__(self, db_file = database_file):
@@ -23,7 +23,7 @@ class PlayerDB:
         if not self.player_exists(username):
             with open(self.players_db, mode='a') as file:
                 writer = csv.writer(file)
-                writer.writerow([username, 0])
+                writer.writerow([username, 0, 0])
             print(f'{username} was added to Database')
             return Player(username, 0, 0)
         else:
