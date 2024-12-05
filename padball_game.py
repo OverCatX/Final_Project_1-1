@@ -2,9 +2,11 @@ import random
 import sys
 
 import pygame
-from obj.ball import Ball
 from db.player_db import PlayerDB
 from components.button import Button
+from obj.ball import Ball
+from sounds.sound import Sound
+
 
 class PadBallGame:
 
@@ -16,21 +18,22 @@ class PadBallGame:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("PadBallGame V.1")
         self.clock = pygame.time.Clock()
+
+        """ Background Music No cc."""
+        self.sound = Sound()
+        self.sound.run_background_sound()
+        """"""
+
         self.running = True
         self.state = "home"
         self.username = ''
         self.player = None
 
-        """ Background Sounds no cc. for gameplay >< """
-        pygame.mixer.music.load("sounds/background_music.wav")
-        pygame.mixer.music.play(-1)
-        """"""
-
         self.floating_balls = [Ball(random.randint(10, 30), x = random.randint(50, 550)
                              , y = random.randint(50, 750), vx = random.choice([-2, 2]), vy = random.choice([-2, 2])
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
-                               for i in range(12)]
+                               for i in range(1)]
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -53,15 +56,6 @@ class PadBallGame:
             'black': (0, 0, 0),
             'gray' : (128,128,128)
         }
-
-    @staticmethod
-    def run_sound(sound):
-        if sound == 'wall':
-            hit_wall_sound = pygame.mixer.Sound('sounds/hit_wall_sound.wav')
-            hit_wall_sound.play(maxtime=1)
-        elif sound == 'paddle':
-            hit_paddle_sound = pygame.mixer.Sound('sounds/hit_paddle_sound.wav')
-            hit_paddle_sound.play(maxtime=1)
 
     def authorization_screen(self):
         while self.state == 'authorization':
@@ -130,6 +124,8 @@ class PadBallGame:
                     pygame.mixer.music.stop()
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.USEREVENT:
+                    self.sound.stop_wall_sound()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.buttons['start'].is_clicked(mouse_pos):
