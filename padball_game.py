@@ -8,10 +8,6 @@ from components.button import Button
 
 class PadBallGame:
 
-    # Static Sound
-    hit_paddle_sound = pygame.mixer.Sound('sounds/hit_paddle_sound.wav')
-    hit_wall_sound = pygame.mixer.Sound('sounds/hit_wall_sound.wav')
-
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
@@ -57,6 +53,15 @@ class PadBallGame:
             'black': (0, 0, 0),
             'gray' : (128,128,128)
         }
+
+    @staticmethod
+    def run_sound(sound):
+        if sound == 'wall':
+            hit_wall_sound = pygame.mixer.Sound('sounds/hit_wall_sound.wav')
+            hit_wall_sound.play(maxtime=1)
+        elif sound == 'paddle':
+            hit_paddle_sound = pygame.mixer.Sound('sounds/hit_paddle_sound.wav')
+            hit_paddle_sound.play(maxtime=1)
 
     def authorization_screen(self):
         while self.state == 'authorization':
