@@ -10,7 +10,7 @@ class Sound:
         self.background_sound = pygame.mixer.Sound('sounds/background_music.wav')
 
     def run_background_sound(self):
-        pass
+        self.background_sound.play(-1)
 
     def run_sound(self, sound):
         if sound == 'wall':
