@@ -1,8 +1,8 @@
 import pygame
 
 class FloatingObject:
-    def __init__(self, size: int = 20, x: int = 0, y: int = 0, vx: float = 0, vy: float = 0
-                 , color: tuple[int, int, int] = (0, 0, 0), screen_width: int = 800, screen_height: int = 600):
+    def __init__(self, size: int, x: int, y: int, vx: float, vy: float, color: tuple[int, int, int]
+                 , screen_width: int, screen_height: int):
         self.size = size
         self.x = x
         self.y = y
