@@ -4,8 +4,9 @@ from .player import Player
 
 database_file = 'db/players.csv'
 
+
 class PlayerDB:
-    def __init__(self, db_file = database_file):
+    def __init__(self, db_file=database_file):
         self.players_db = db_file
         if not os.path.exists(self.players_db):
             with open(self.players_db, mode='w') as file:
