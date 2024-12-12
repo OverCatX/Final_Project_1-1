@@ -35,7 +35,7 @@ class PadBallGame:
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
                                for i in range(1)]
-        self.paddle = Paddle(100,30,(self.screen_width - 100 )//2, self.screen_height - 40,(255,255,255), 5)
+        self.paddle = Paddle(200,30,(self.screen_width - 100 )//2, self.screen_height - 100,(0,0,255), speed=15)
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -176,19 +176,23 @@ class PadBallGame:
             self.clock.tick(60)
     
     def on_game(self):
-        while self.state == 'on_game':
+        while self.state == 'lobby':
             """ Set White Background Screen """
             self.screen.fill(self.color_codes['white'])
             """"""
-
+            
             title_text = self.fonts['Medium'].render(f"Welcome's {self.player.username}", True, (0, 0, 0))
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
+            
+            """ Draw Paddle """
+            self.paddle.draw(self.screen)
+            """"""
 
             """ Paddle Movement Control"""
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT] and self.paddle.x > 0:
                 self.paddle.x -= self.paddle.speed
-            if keys[pygame.K_RIGHT] and self.paddle.x < self.screen_height - self.screen_width:
+            if keys[pygame.K_RIGHT] and self.paddle.x < self.screen_width - self.paddle.width:
                 self.paddle.x += self.paddle.speed
             """"""
 
@@ -210,7 +214,7 @@ class PadBallGame:
             elif self.state == 'home':
                 self.home_screen()
             elif self.state == 'lobby':
-                self.lobby_screen()
+                self.on_game()
         pygame.quit()
         sys.exit()
 
