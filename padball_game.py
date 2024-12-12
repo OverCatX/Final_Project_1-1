@@ -124,8 +124,6 @@ class PadBallGame:
                     pygame.mixer.music.stop()
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.USEREVENT:
-                    self.sound.stop_wall_sound()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.buttons['start'].is_clicked(mouse_pos):
@@ -155,6 +153,23 @@ class PadBallGame:
 
             title_text = self.fonts['Medium'].render(f"Welcome's {self.player.username}", True, (0, 0, 0))
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.mixer.music.stop()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    # if self.buttons['start'].is_clicked(mouse_pos):
+                    #     self.state = "authorization"
+                    # elif self.buttons['leaderboard'].is_clicked(mouse_pos):
+                    #     print("Leaderboard clicked!")
+                    # elif self.buttons['report'].is_clicked(mouse_pos):
+                    #     self.state = "home"
+                    # elif self.buttons['exit'].is_clicked(mouse_pos):
+                    #     pygame.quit()
+                    #     sys.exit()
+
             pygame.display.flip()
             self.clock.tick(60)
 
