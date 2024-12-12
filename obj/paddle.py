@@ -1,7 +1,7 @@
 import pygame
 
 class Paddle:
-    def __init__(self, width: int, height: int, x: int, y:int,color: str, speed:int):
+    def __init__(self, width: int, height: int, x: int, y:int, color, speed:int):
         self.width = width
         self.height = height
         self.x = x
