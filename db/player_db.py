@@ -13,6 +13,7 @@ class PlayerDB:
                 writer.writerow(['Username', 'HighScore', 'ReleaseScore'])
 
     def player_exists(self, username) -> bool:
+        username = username.lower()
         with open(self.players_db, mode='r') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -20,6 +21,7 @@ class PlayerDB:
                     return True
 
     def player_login(self, username):
+        username = username.lower()
         if not self.player_exists(username):
             with open(self.players_db, mode='a') as file:
                 writer = csv.writer(file)
