@@ -5,6 +5,7 @@ import pygame
 from db.player_db import PlayerDB
 from components.button import Button
 from obj.ball import Ball
+from obj.paddle import Paddle
 from sounds.sound import Sound
 
 
@@ -34,6 +35,7 @@ class PadBallGame:
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
                                for i in range(1)]
+        self.paddle = Paddle(100,30,(self.screen_width - 100 )//2, self.screen_height - 40,(255,255,255), 5)
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -184,10 +186,10 @@ class PadBallGame:
 
             """ Paddle Movement Control"""
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT] and paddle_x > 0:
-                paddle_x -= PADDLE_SPEED
-            if keys[pygame.K_RIGHT] and paddle_x < SCREEN_WIDTH - PADDLE_WIDTH:
-                paddle_x += PADDLE_SPEED
+            if keys[pygame.K_LEFT] and self.paddle.x > 0:
+                self.paddle.x -= self.paddle.speed
+            if keys[pygame.K_RIGHT] and self.paddle.x < self.screen_height - self.screen_width:
+                self.paddle.x += self.paddle.speed
             """"""
 
             for event in pygame.event.get():
