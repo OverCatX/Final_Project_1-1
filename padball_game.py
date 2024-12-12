@@ -172,6 +172,34 @@ class PadBallGame:
 
             pygame.display.flip()
             self.clock.tick(60)
+    
+    def on_game(self):
+        while self.state == 'on_game':
+            """ Set White Background Screen """
+            self.screen.fill(self.color_codes['white'])
+            """"""
+
+            title_text = self.fonts['Medium'].render(f"Welcome's {self.player.username}", True, (0, 0, 0))
+            self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
+
+            """ Paddle Movement Control"""
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT] and paddle_x > 0:
+                paddle_x -= PADDLE_SPEED
+            if keys[pygame.K_RIGHT] and paddle_x < SCREEN_WIDTH - PADDLE_WIDTH:
+                paddle_x += PADDLE_SPEED
+            """"""
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.mixer.music.stop()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+
+            pygame.display.flip()
+            self.clock.tick(60)
 
     def run(self):
         while self.running:
