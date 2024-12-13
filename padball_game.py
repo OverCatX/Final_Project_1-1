@@ -260,8 +260,8 @@ class PadBallGame:
                     self.game_data['screen_color'] = self.color_codes['thistle']
 
                     # Set event
-                    self.game_data['event_id'] = self.game_data['event_random_select']
-                    print(self.game_data['event_id'])
+                    self.game_data['event_id'] = '#003'
+                    # print(self.game_data['event_id'])
                     self.game_data['event_duration'] = self.events[self.game_data['event_id']]['duration']
 
                     if self.game_data['event_id'] == '#001':
@@ -269,20 +269,26 @@ class PadBallGame:
                     elif self.game_data['event_id'] == '#002':
                         pass
                     elif self.game_data['event_id'] == '#003':
-                        pass
+                        self.wood_paddle.width = self.screen_width
                     elif self.game_data['event_id'] == '#004':
                         pass
                     elif self.game_data['event_id'] == '#005':
                         self.game_data['event_multiply_score'] = 3
+
+                    # Text Event Bonus ><
                     event_title = self.fonts['Small'].render(f"Bonus: {self.events[self.game_data['event_id']]['title']}"
                                                              , True,(255, 128, 0))
                     self.screen.blit(event_title, (self.screen_width // 2 - event_title.get_width() // 2, 180))
+
                     # End Event
                     current_time = pygame.time.get_ticks() // 1000
                     if current_time - self.game_data['event_startTime'] >= self.game_data['event_duration']:
                         self.game_data['event_status'] = False  # End event ><
                         self.game_data['screen_color'] = self.color_codes['lavender']
+
+                        # Back to Original value
                         self.game_data['event_multiply_score'] = 1
+                        self.wood_paddle.width = 200
                 """"""
 
             """ Draw Wood Paddle """
