@@ -1,7 +1,7 @@
 import pygame.draw
 
 class MysteryBlock:
-    def __init__(self, width:int, height: int, x: int, y: int, color: str):
+    def __init__(self, width:int, height: int, x: int, y: int, color):
         self.width = width
         self.height = height
         self.x = x
