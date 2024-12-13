@@ -67,7 +67,8 @@ class PadBallGame:
         self.color_codes = {
             'white': (255, 255, 255),
             'black': (0, 0, 0),
-            'gray' : (128,128,128)
+            'gray' : (128,128,128),
+            'lavender': (230, 230, 250)
         }
 
     def authorization_screen(self):
