@@ -1,10 +1,11 @@
 import random
 import sys
+import time
 
 import pygame
 from db.player_db import PlayerDB
 from components.button import Button
-from obj.ball import Ball
+from obj.ball import Ball, FloatingObject
 from obj.paddle import Paddle
 from sounds.sound import Sound
 
@@ -26,16 +27,26 @@ class PadBallGame:
         """"""
 
         self.running = True
-        self.state = "home"
-        self.username = ''
+        self.game_data = {
+            'username': '',
+            'state': 'home',
+            'scores': 0,
+            'time_start': 3,
+            'screen_color': (255, 255, 255)
+        }
         self.player = None
 
-        self.floating_balls = [Ball(random.randint(10, 30), x = random.randint(50, 550)
+        self.floating_balls = [FloatingObject(random.randint(10, 30), x = random.randint(50, 550)
                              , y = random.randint(50, 750), vx = random.choice([-2, 2]), vy = random.choice([-2, 2])
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
-                               for i in range(1)]
-        self.paddle = Paddle(200,30,(self.screen_width - 100 )//2, self.screen_height - 100,(0,0,255), speed=15)
+                               for i in range(10)]
+        self.ball_game = Ball(20, x=self.screen_width //2,y=self.screen_height//2, vx=12
+                               , vy=12, color=(0,0,0)
+                               ,screen_width=self.screen_width, screen_height=self.screen_height)
+
+        self.paddle = Paddle(150,30,(self.screen_width - 100 )//2, self.screen_height - 120,(0,0,255), speed=25)
+        self.wood_paddle = Paddle(200,25,(self.screen_width - 200)//2, 0,(0,0,0), speed=0)
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -60,7 +71,7 @@ class PadBallGame:
         }
 
     def authorization_screen(self):
-        while self.state == 'authorization':
+        while self.game_data['state'] == 'authorization':
             """Set White Background Screen"""
             self.screen.fill(self.color_codes['white'])
             """"""
@@ -71,7 +82,7 @@ class PadBallGame:
             self.screen.blit(subtitle_text, (self.screen_width // 2 - subtitle_text.get_width() // 2, 200))
 
             """ Display the username being typed """
-            username_surface = self.fonts['Medium'].render(self.username, True, (255, 255, 255))
+            username_surface = self.fonts['Medium'].render(self.game_data['username'], True, (255, 255, 255))
             pygame.draw.rect(self.screen, (50, 50, 50), (100, 350, 400, 50))
             self.screen.blit(username_surface, (110, 360))
             """"""
@@ -84,26 +95,26 @@ class PadBallGame:
                     sys.exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
-                        self.username = self.username[:-1]
-                    elif event.key == pygame.K_RETURN and self.username.strip():
-                        self.state = "home"
-                    elif len(self.username) < 10:
-                        self.username += event.unicode
+                        self.game_data['username'] = self.game_data['username'][:-1]
+                    elif event.key == pygame.K_RETURN and self.game_data['username'].strip():
+                        self.game_data['state'] = "home"
+                    elif len(self.game_data['username']) < 10:
+                        self.game_data['username'] += event.unicode
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
 
                     """ Enter Game button """
-                    if self.buttons['login_button'].is_clicked(mouse_pos) and self.username.strip():
+                    if self.buttons['login_button'].is_clicked(mouse_pos) and self.game_data['username'].strip():
                         player_db = PlayerDB()
-                        self.player = player_db.player_login(self.username)
-                        self.state = "lobby"
+                        self.player = player_db.player_login(self.game_data['username'])
+                        self.game_data['state'] = "lobby"
                     """"""
 
             pygame.display.flip()
             self.clock.tick(60)
 
     def home_screen(self):
-        while self.state == 'home':
+        while self.game_data['state'] == 'home':
             """ Set White Background Screen """
             self.screen.fill(self.color_codes['white'])
             """"""
@@ -129,11 +140,11 @@ class PadBallGame:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.buttons['start'].is_clicked(mouse_pos):
-                        self.state = "authorization"
+                        self.game_data['state'] = "authorization"
                     elif self.buttons['leaderboard'].is_clicked(mouse_pos):
                         print("Leaderboard clicked!")
                     elif self.buttons['report'].is_clicked(mouse_pos):
-                        self.state = "home"
+                        self.game_data['state'] = "home"
                     elif self.buttons['exit'].is_clicked(mouse_pos):
                         pygame.quit()
                         sys.exit()
@@ -142,7 +153,7 @@ class PadBallGame:
             self.clock.tick(60)
 
     def lobby_screen(self):
-        while self.state == 'lobby':
+        while self.game_data['state'] == 'lobby':
             """ Set White Background Screen """
             self.screen.fill(self.color_codes['white'])
             """"""
@@ -176,19 +187,38 @@ class PadBallGame:
             self.clock.tick(60)
     
     def on_game(self):
-        while self.state == 'lobby':
+        while self.game_data['state'] == 'lobby':
             """ Set White Background Screen """
-            self.screen.fill(self.color_codes['white'])
+            self.screen.fill(self.game_data['screen_color'])
             """"""
             
-            title_text = self.fonts['Medium'].render(f"Welcome's {self.player.username}", True, (0, 0, 0))
+            title_text = self.fonts['Medium'].render(f"Score {self.game_data['scores']}", True, (0, 0, 0))
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
-            
+
+            """ Draw Wood Paddle """
+            self.wood_paddle.draw(self.screen)
+            """"""
+
             """ Draw Paddle """
             self.paddle.draw(self.screen)
             """"""
 
-            """ Paddle Movement Control"""
+            """ Draw ball """
+            self.ball_game.updates(self.paddle, self.wood_paddle)
+            self.ball_game.draw(self.screen)
+            """"""
+
+            """ Added score when ball hit wood_paddle"""
+            if self.ball_game.on_hit_wood_paddle(self.wood_paddle):
+                self.game_data['scores'] += 1
+            """"""
+
+            """ Events """
+            if self.game_data['scores'] > 5:
+                self.game_data['screen_color'] = self.color_codes['gray']
+            """"""
+
+            """ Paddle Movement Control """
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT] and self.paddle.x > 0:
                 self.paddle.x -= self.paddle.speed
@@ -209,11 +239,13 @@ class PadBallGame:
 
     def run(self):
         while self.running:
-            if self.state == 'authorization':
+            if self.game_data['state'] == 'authorization':
                 self.authorization_screen()
-            elif self.state == 'home':
+            elif self.game_data['state'] == 'home':
                 self.home_screen()
-            elif self.state == 'lobby':
+            elif self.game_data['state'] == 'lobby':
+                self.on_game()
+            elif self.game_data['state'] == 'on_game':
                 self.on_game()
         pygame.quit()
         sys.exit()
