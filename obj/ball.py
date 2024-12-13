@@ -21,16 +21,41 @@ class Ball(FloatingObject):
             self.sound.run_sound('paddle')
 
     def on_hit_paddle(self, paddle):
-        if (paddle.y <= self.y + self.size <= paddle.y + paddle.height and
-                paddle.x <= self.x <= paddle.x + paddle.width):
-            self.vy = -self.vy
-            self.sound.run_sound('paddle')
+        if (paddle.x - self.size <= self.x <= paddle.x + paddle.width + self.size and
+                paddle.y - self.size <= self.y <= paddle.y + paddle.height + self.size):
+            if paddle.y - self.size <= self.y <= paddle.y:
+                self.vy = -self.vy
+                self.sound.run_sound('paddle')
+            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:
+                self.vy = -self.vy
+                self.sound.run_sound('paddle')
+            elif paddle.x - self.size <= self.x <= paddle.x:
+                self.vx = -self.vx
+                self.sound.run_sound('paddle')
+            elif paddle.x + paddle.width <= self.x <= paddle.x + paddle.width + self.size:
+                self.vx = -self.vx
+                self.sound.run_sound('paddle')
 
     def on_hit_wood_paddle(self, paddle):
-        if (paddle.x <= self.x <= paddle.x + paddle.width and
+        # All sides of paddle ><
+        if (paddle.x - self.size <= self.x <= paddle.x + paddle.width + self.size and
                 paddle.y - self.size <= self.y <= paddle.y + paddle.height + self.size):
-            self.vy = -self.vy
-            print('+1')
+            if paddle.y - self.size <= self.y <= paddle.y:
+                self.vy = -self.vy
+                self.sound.run_sound('paddle')
+                print("+1 (top)")
+            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:
+                self.vy = -self.vy
+                self.sound.run_sound('paddle')
+                print("+1 (bottom)")
+            elif paddle.x - self.size <= self.x <= paddle.x:
+                self.vx = -self.vx
+                self.sound.run_sound('paddle')
+                print("+1 (left)")
+            elif paddle.x + paddle.width <= self.x <= paddle.x + paddle.width + self.size:
+                self.vx = -self.vx
+                self.sound.run_sound('paddle')
+                print("+1 (right)")
 
     def __str__(self):
         return 'ball'
