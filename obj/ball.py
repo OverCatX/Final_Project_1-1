@@ -64,5 +64,11 @@ class Ball(FloatingObject):
             return True
         return False
 
+    def on_hit_mystery_box(self, box, box_active) -> bool:
+        if box_active and box.x <= self.x <= box.x + box.width and box.y <= self.y <= box.y + box.width:
+            print("Got box!")
+            return True
+        return False
+
     def __str__(self):
         return 'ball'
