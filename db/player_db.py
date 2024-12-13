@@ -11,6 +11,7 @@ class PlayerDB:
             with open(self.players_db, mode='w') as file:
                 writer = csv.writer(file)
                 writer.writerow(['Username', 'HighScore', 'ReleaseScore'])
+        self.data = []
 
     def player_exists(self, username) -> bool:
         username = username.lower()
@@ -35,17 +36,29 @@ class PlayerDB:
                     if row['Username'] == username:
                         return Player(row['Username'], row['HighScore'], row['ReleaseScore'])
 
+    def set_new_highscore(self, username, highscore):
+        with open(self.players_db, mode='r', encoding="utf-8") as file:
+            reader = csv.reader(file)
+            header = next(reader)
+            for row in reader:
+                if row[0] == username:
+                    row[1] = highscore
+                self.data.append(row)
+        with open(self.players_db, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(header)
+            writer.writerows(self.data)
+
 class Player:
     def __init__(self, username: str, highscore: int, release_score: int):
         self.username = username
         self.highscore = highscore
         self.release_score = release_score
 
-    def updates(self, score):
-        self.release_score = score
-        if self.highscore < score:
-            self.highscore = score
-        print('updated player data')
+    def updates_best_score(self, score):
+        self.highscore = score
+        PlayerDB().set_new_highscore(self.username,self.highscore)
+        print(f'updated {self.username} highscore data')
 
     def __str__(self):
         return f'Player: {self.username}, HighScore: {self.highscore}, ReleaseScore: {self.release_score}'
