@@ -5,6 +5,7 @@ import pygame
 from db.player_db import PlayerDB
 from components.button import Button
 from obj.ball import Ball, FloatingObject
+from obj.mystery_box import MysteryBlock
 from obj.paddle import Paddle
 from sounds.sound import Sound
 
@@ -30,9 +31,39 @@ class PadBallGame:
             'username': '',
             'state': 'home',
             'scores': 0,
+            'mystery_box_active': False,
+            'mystery_box_timer': 0,
+            'mystery_box_appear_time': 0,
             'time_start': 3,
             'screen_color': (255, 255, 255),
-            'on_event': False
+            'event_status': False,
+            'event_id': '', #001 = x2 score (10secs), #002 = slowed ball (10 secs), #003 = expanded wood paddle(5 secs), #004 = save ball(5 sec), #005 x3 score(10 sec)
+            'event_startTime': 0,
+            'event_duration': 0,
+            'event_random_select': '',
+            'event_multiply_score': 1
+        }
+        self.events = {
+            '#001': {
+                'title': 'x2 Score',
+                'duration': 10
+            },
+            '#002': {
+                'title': 'Slowed Ball',
+                'duration': 10
+            },
+            '#003': {
+                'title': 'Big paddle',
+                'duration': 5
+            },
+            '#004': {
+                'title': 'Save Ball',
+                'duration': 5
+            },
+            '#005': {
+                'title': 'x3 Score',
+                'duration': 6
+            }
         }
         self.player = None
 
@@ -44,6 +75,7 @@ class PadBallGame:
         self.ball_game = Ball(20, x=self.screen_width //2,y=self.screen_height//2, vx=10
                                , vy=10, color=(0,0,0)
                                ,screen_width=self.screen_width, screen_height=self.screen_height)
+        self.mystery_box = MysteryBlock(50,50, 0, 0, (255,195,0))
 
         self.paddle = Paddle(150,30,(self.screen_width - 100 )//2, self.screen_height - 120,(0,0,255), speed=25)
         self.wood_paddle = Paddle(200,25,(self.screen_width - 200)//2, 0,(0,0,0), speed=0)
@@ -199,6 +231,60 @@ class PadBallGame:
             self.screen.blit(score_text, (self.screen_width // 2 - score_text.get_width() // 2, 100))
             self.screen.blit(best_score_text, (self.screen_width // 2 - best_score_text.get_width() // 2, 130))
 
+            """ Mystery Box """
+            if self.game_data['scores'] >= 1:
+                # If hit mystery_box
+                if self.ball_game.on_hit_mystery_box(self.mystery_box, self.game_data['mystery_box_active']):
+                    self.game_data['mystery_box_active'] = False
+                    self.game_data['event_status'] = True
+                    self.game_data['event_startTime'] = pygame.time.get_ticks() // 1000
+                    print('event started')
+
+                # Box not active
+                if not self.game_data['mystery_box_active']:
+                    current_time = pygame.time.get_ticks() // 1000
+                    if current_time - self.game_data['mystery_box_appear_time'] >= self.game_data['mystery_box_timer']:
+                        self.game_data['mystery_box_timer'] = random.randint(15,30)
+                        self.mystery_box.x = random.randint(50, self.screen_width - 50)
+                        self.mystery_box.y = random.randint(100, self.screen_height - 200)
+                        self.game_data['mystery_box_active'] = True
+                        self.game_data['mystery_box_appear_time'] = current_time
+                        event_id_lists = [event_ids for event_ids in self.events.keys()]
+                        self.game_data['event_random_select'] = event_id_lists[random.randint(0, len(event_id_lists) - 1)]
+                else:
+                    self.mystery_box.draw(self.screen)
+                """"""
+
+                """ Events-Bonus """
+                if self.game_data['event_status']:
+                    self.game_data['screen_color'] = self.color_codes['thistle']
+
+                    # Set event
+                    self.game_data['event_id'] = self.game_data['event_random_select']
+                    print(self.game_data['event_id'])
+                    self.game_data['event_duration'] = self.events[self.game_data['event_id']]['duration']
+
+                    if self.game_data['event_id'] == '#001':
+                        self.game_data['event_multiply_score'] = 2
+                    elif self.game_data['event_id'] == '#002':
+                        pass
+                    elif self.game_data['event_id'] == '#003':
+                        pass
+                    elif self.game_data['event_id'] == '#004':
+                        pass
+                    elif self.game_data['event_id'] == '#005':
+                        self.game_data['event_multiply_score'] = 3
+                    event_title = self.fonts['Small'].render(f"Bonus: {self.events[self.game_data['event_id']]['title']}"
+                                                             , True,(255, 128, 0))
+                    self.screen.blit(event_title, (self.screen_width // 2 - event_title.get_width() // 2, 180))
+                    # End Event
+                    current_time = pygame.time.get_ticks() // 1000
+                    if current_time - self.game_data['event_startTime'] >= self.game_data['event_duration']:
+                        self.game_data['event_status'] = False  # End event ><
+                        self.game_data['screen_color'] = self.color_codes['lavender']
+                        self.game_data['event_multiply_score'] = 1
+                """"""
+
             """ Draw Wood Paddle """
             self.wood_paddle.draw(self.screen)
             """"""
@@ -208,21 +294,21 @@ class PadBallGame:
             """"""
 
             """ Draw ball """
-            self.ball_game.updates(self.paddle, self.wood_paddle)
+            self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active'])
             self.ball_game.draw(self.screen)
             """"""
 
             """ Updates score when ball hit wood_paddle"""
             if self.ball_game.on_hit_wood_paddle(self.wood_paddle):
                 if self.game_data['scores'] >= int(self.player.highscore):
-                    self.game_data['scores'] += 1
+                    self.game_data['scores'] += (1 * self.game_data['event_multiply_score'])
                     self.player.updates_best_score(self.game_data['scores'])
                 else:
-                    self.game_data['scores'] += 1
+                    self.game_data['scores'] += (1 * self.game_data['event_multiply_score'])
             """"""
 
-            """ Events """
-            if self.game_data['scores'] > 5:
+            """ On prime score """
+            if self.game_data['scores'] == 5:
                 self.game_data['screen_color'] = self.color_codes['lavender']
             """"""
 
@@ -239,8 +325,6 @@ class PadBallGame:
                     pygame.mixer.music.stop()
                     pygame.quit()
                     sys.exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_pos = event.pos
 
             pygame.display.flip()
             self.clock.tick(60)
