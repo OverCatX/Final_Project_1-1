@@ -68,7 +68,8 @@ class PadBallGame:
             'white': (255, 255, 255),
             'black': (0, 0, 0),
             'gray' : (128,128,128),
-            'lavender': (230, 230, 250)
+            'lavender': (230, 230, 250),
+            'thistle': (216, 191, 216)
         }
 
     def authorization_screen(self):
@@ -222,7 +223,7 @@ class PadBallGame:
 
             """ Events """
             if self.game_data['scores'] > 5:
-                self.game_data['screen_color'] = self.color_codes['gray']
+                self.game_data['screen_color'] = self.color_codes['lavender']
             """"""
 
             """ Paddle Movement Control """
