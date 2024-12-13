@@ -1,6 +1,5 @@
 import random
 import sys
-import time
 
 import pygame
 from db.player_db import PlayerDB
@@ -32,7 +31,8 @@ class PadBallGame:
             'state': 'home',
             'scores': 0,
             'time_start': 3,
-            'screen_color': (255, 255, 255)
+            'screen_color': (255, 255, 255),
+            'on_event': False
         }
         self.player = None
 
@@ -41,8 +41,8 @@ class PadBallGame:
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
                                for i in range(10)]
-        self.ball_game = Ball(20, x=self.screen_width //2,y=self.screen_height//2, vx=12
-                               , vy=12, color=(0,0,0)
+        self.ball_game = Ball(20, x=self.screen_width //2,y=self.screen_height//2, vx=10
+                               , vy=10, color=(0,0,0)
                                ,screen_width=self.screen_width, screen_height=self.screen_height)
 
         self.paddle = Paddle(150,30,(self.screen_width - 100 )//2, self.screen_height - 120,(0,0,255), speed=25)
@@ -192,8 +192,10 @@ class PadBallGame:
             self.screen.fill(self.game_data['screen_color'])
             """"""
             
-            title_text = self.fonts['Medium'].render(f"Score {self.game_data['scores']}", True, (0, 0, 0))
-            self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
+            score_text = self.fonts['Medium'].render(f"Score {self.game_data['scores']}", True, (0, 0, 0))
+            best_score_text = self.fonts['Small'].render(f"BestScore {self.player.highscore}", True, (255, 0, 0))
+            self.screen.blit(score_text, (self.screen_width // 2 - score_text.get_width() // 2, 100))
+            self.screen.blit(best_score_text, (self.screen_width // 2 - best_score_text.get_width() // 2, 130))
 
             """ Draw Wood Paddle """
             self.wood_paddle.draw(self.screen)
@@ -208,9 +210,13 @@ class PadBallGame:
             self.ball_game.draw(self.screen)
             """"""
 
-            """ Added score when ball hit wood_paddle"""
+            """ Updates score when ball hit wood_paddle"""
             if self.ball_game.on_hit_wood_paddle(self.wood_paddle):
-                self.game_data['scores'] += 1
+                if self.game_data['scores'] >= int(self.player.highscore):
+                    self.game_data['scores'] += 1
+                    self.player.updates_best_score(self.game_data['scores'])
+                else:
+                    self.game_data['scores'] += 1
             """"""
 
             """ Events """
