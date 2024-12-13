@@ -23,46 +23,43 @@ class Ball(FloatingObject):
     def on_hit_paddle(self, paddle):
         if (paddle.x - self.size <= self.x <= paddle.x + paddle.width + self.size and
                 paddle.y - self.size <= self.y <= paddle.y + paddle.height + self.size):
-
             # Detect which side of the paddle the ball hit
-            if paddle.y - self.size <= self.y <= paddle.y:  # Top side
-                self.vy = -abs(self.vy)  # Ensure upward bounce
-                self.y = paddle.y - self.size  # Reposition above the paddle
+            if paddle.y - self.size <= self.y <= paddle.y:
+                self.vy = -abs(self.vy)
+                self.y = paddle.y - self.size
                 print("+1 (top)")
-            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:  # Bottom side
-                self.vy = abs(self.vy)  # Ensure downward bounce
-                self.y = paddle.y + paddle.height + self.size  # Reposition below the paddle
+            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:  # Bottom
+                self.vy = abs(self.vy)
+                self.y = paddle.y + paddle.height + self.size
                 print("+1 (bottom)")
-            elif paddle.x - self.size <= self.x <= paddle.x:  # Left side
-                self.vx = -abs(self.vx)  # Ensure leftward bounce
-                self.x = paddle.x - self.size  # Reposition to the left
+            elif paddle.x - self.size <= self.x <= paddle.x:  # Left
+                self.vx = -abs(self.vx)
+                self.x = paddle.x - self.size
                 print("+1 (left)")
             elif paddle.x + paddle.width <= self.x <= paddle.x + paddle.width + self.size:  # Right side
-                self.vx = abs(self.vx)  # Ensure rightward bounce
-                self.x = paddle.x + paddle.width + self.size  # Reposition to the right
+                self.vx = abs(self.vx)
+                self.x = paddle.x + paddle.width + self.size
                 print("+1 (right)")
 
     def on_hit_wood_paddle(self, paddle) -> bool:
         # All sides of paddle ><
         if (paddle.x - self.size <= self.x <= paddle.x + paddle.width + self.size and
                 paddle.y - self.size <= self.y <= paddle.y + paddle.height + self.size):
-
-            # Detect which side of the paddle the ball hit
-            if paddle.y - self.size <= self.y <= paddle.y:  # Top side
-                self.vy = -abs(self.vy)  # Ensure upward bounce
-                self.y = paddle.y - self.size  # Reposition above the paddle
+            if paddle.y - self.size <= self.y <= paddle.y:
+                self.vy = -abs(self.vy)
+                self.y = paddle.y - self.size
                 print("+1 (top)")
-            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:  # Bottom side
-                self.vy = abs(self.vy)  # Ensure downward bounce
-                self.y = paddle.y + paddle.height + self.size  # Reposition below the paddle
+            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:  # Bottom
+                self.vy = abs(self.vy)
+                self.y = paddle.y + paddle.height + self.size
                 print("+1 (bottom)")
-            elif paddle.x - self.size <= self.x <= paddle.x:  # Left side
-                self.vx = -abs(self.vx)  # Ensure leftward bounce
-                self.x = paddle.x - self.size  # Reposition to the left
+            elif paddle.x - self.size <= self.x <= paddle.x:  # Left
+                self.vx = -abs(self.vx)
+                self.x = paddle.x - self.size
                 print("+1 (left)")
-            elif paddle.x + paddle.width <= self.x <= paddle.x + paddle.width + self.size:  # Right side
-                self.vx = abs(self.vx)  # Ensure rightward bounce
-                self.x = paddle.x + paddle.width + self.size  # Reposition to the right
+            elif paddle.x + paddle.width <= self.x <= paddle.x + paddle.width + self.size:
+                self.vx = abs(self.vx)
+                self.x = paddle.x + paddle.width + self.size
                 print("+1 (right)")
             return True
         return False
