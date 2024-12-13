@@ -1,28 +1,36 @@
 from obj.floating_object import FloatingObject
-from sounds.sound import Sound
-
 
 class Ball(FloatingObject):
     def __init__(self, size: int = 20, x: int = 0, y: int = 0, vx: float = 0, vy: float = 0
                  , color: tuple[int, int, int] = (0, 0, 0), screen_width: int = 800, screen_height: int = 600):
         super().__init__(size, x, y, vx, vy, color, screen_width, screen_height)
-        self.sound = Sound()
+
+    def updates(self, paddle=None, wood_paddle=None):
+        super().updates()
+        if paddle is not None:
+            self.on_hit_paddle(paddle)
+        if wood_paddle is not None:
+            self.on_hit_wood_paddle(wood_paddle)
 
     def on_hit_screen_edge(self):
         if self.x - self.size < 0 or self.x + self.size > self.screen_width:
             self.vx = -self.vx
-            self.sound.run_sound('wall')
+            self.sound.run_sound('paddle')
         if self.y - self.size < 0 or self.y + self.size > self.screen_height:
             self.vy = -self.vy
-            self.sound.run_sound('wall')
+            self.sound.run_sound('paddle')
 
     def on_hit_paddle(self, paddle):
-        if self.x - self.size < 0 or self.x + self.size > paddle.width:
-            self.vx = -self.vx
-            self.sound.run_sound('paddle')
-        if self.y - self.size < 0 or self.y + self.size > paddle.height:
+        if (paddle.y <= self.y + self.size <= paddle.y + paddle.height and
+                paddle.x <= self.x <= paddle.x + paddle.width):
             self.vy = -self.vy
             self.sound.run_sound('paddle')
+
+    def on_hit_wood_paddle(self, paddle):
+        if (paddle.x <= self.x <= paddle.x + paddle.width and
+                paddle.y - self.size <= self.y <= paddle.y + paddle.height + self.size):
+            self.vy = -self.vy
+            print('+1')
 
     def __str__(self):
         return 'ball'
