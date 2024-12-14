@@ -115,6 +115,42 @@ class PadBallGame:
             'thistle': (216, 191, 216)
         }
 
+    def turn_default_data(self):
+        self.game_data['scores'] = 0
+        self.game_data['ball_speed_origin'] = 10
+        self.game_data['ball_speed_slow_multiply'] = 0.8
+        self.game_data['ball_set'] = True
+        self.game_data['mystery_box_active'] = False
+        self.game_data['mystery_box_timer'] = 0
+        self.game_data['mystery_box_appear_time'] = 0
+        self.game_data['time_start'] = 3
+        self.game_data['screen_color'] = (255, 255, 255)
+        self.game_data['event_status'] = False
+        self.game_data['event_id'] = ''
+        self.game_data['event_startTime'] = 0
+        self.game_data['event_duration'] = 0
+        self.game_data['event_random_select'] = ''
+        self.game_data['event_multiply_score'] = 1
+        self.game_data['event_slowed_ball'] = False
+        self.game_data['event_big_paddle'] = False
+        self.game_data['event_save_ball'] = False
+        self.floating_balls = [FloatingObject(random.randint(10, 30), x=random.randint(50, 550)
+                                              , y=random.randint(50, 750), vx=random.choice([-2, 2]),
+                                              vy=random.choice([-2, 2])
+                                              , color=(
+            random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
+                                              , screen_width=self.screen_width, screen_height=self.screen_height)
+                               for i in range(10)]
+        self.ball_game = Ball(20, x=self.screen_width // 2, y=self.screen_height // 2,
+                              vx=self.game_data['ball_speed_origin']
+                              , vy=self.game_data['ball_speed_origin'], color=(0, 0, 0)
+                              , screen_width=self.screen_width, screen_height=self.screen_height)
+        self.mystery_box = MysteryBlock(50, 50, 0, 0, (255, 195, 0))
+
+        self.paddle = Paddle(150, 30, (self.screen_width - 100) // 2, self.screen_height - 120, (0, 0, 255), speed=25)
+        self.wood_paddle = Paddle(200, 25, (self.screen_width - 200) // 2, 0, (0, 0, 0), speed=0)
+        self.save_ball_paddle = Paddle(self.screen_width, 20, 0, self.screen_height - 50, (0, 0, 0), speed=0)
+
     def authorization_screen(self):
         while self.game_data['state'] == 'authorization':
             """Set White Background Screen"""
@@ -235,6 +271,7 @@ class PadBallGame:
             self.clock.tick(60)
     
     def on_game(self):
+        self.turn_default_data()
         while self.game_data['state'] == 'lobby':
             """ Set White Background Screen """
             self.screen.fill(self.game_data['screen_color'])
@@ -324,6 +361,11 @@ class PadBallGame:
             self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active']
                                    , self.save_ball_paddle, self.game_data['event_save_ball'])
             self.ball_game.draw(self.screen)
+            """"""
+
+            """ Check game over"""
+            if self.ball_game.y - self.screen_width > self.screen_height:
+                self.game_data['state'] = 'game_over'
             """"""
 
             """ Slowed Ball (When on Event Bonus) """
