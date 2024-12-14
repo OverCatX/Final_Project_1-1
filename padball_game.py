@@ -37,11 +37,12 @@ class PadBallGame:
             'time_start': 3,
             'screen_color': (255, 255, 255),
             'event_status': False,
-            'event_id': '', #001 = x2 score (10secs), #002 = slowed ball (10 secs), #003 = expanded wood paddle(5 secs), #004 = save ball(5 sec), #005 x3 score(10 sec)
+            'event_id': '', #001 = x2 score (10secs), #002 = slowed ball (10 secs), #003 = expanded wood paddle(5 secs), #004 = save ball(10 sec), #005 x3 score(10 sec)
             'event_startTime': 0,
             'event_duration': 0,
             'event_random_select': '',
-            'event_multiply_score': 1
+            'event_multiply_score': 1,
+            'event_save_ball': False
         }
         self.events = {
             '#001': {
@@ -58,7 +59,7 @@ class PadBallGame:
             },
             '#004': {
                 'title': 'Save Ball',
-                'duration': 5
+                'duration': 10
             },
             '#005': {
                 'title': 'x3 Score',
@@ -79,6 +80,7 @@ class PadBallGame:
 
         self.paddle = Paddle(150,30,(self.screen_width - 100 )//2, self.screen_height - 120,(0,0,255), speed=25)
         self.wood_paddle = Paddle(200,25,(self.screen_width - 200)//2, 0,(0,0,0), speed=0)
+        self.save_ball_paddle = Paddle(self.screen_width, 20, 0, self.screen_height - 50, (0, 0, 0), speed=0)
 
         self.fonts = {
             "Large": pygame.font.Font(None, 74),
@@ -260,7 +262,7 @@ class PadBallGame:
                     self.game_data['screen_color'] = self.color_codes['thistle']
 
                     # Set event
-                    self.game_data['event_id'] = '#003'
+                    self.game_data['event_id'] = self.game_data['event_random_select']
                     # print(self.game_data['event_id'])
                     self.game_data['event_duration'] = self.events[self.game_data['event_id']]['duration']
 
@@ -271,7 +273,7 @@ class PadBallGame:
                     elif self.game_data['event_id'] == '#003':
                         self.wood_paddle.width = self.screen_width
                     elif self.game_data['event_id'] == '#004':
-                        pass
+                        self.game_data['event_save_ball'] = True
                     elif self.game_data['event_id'] == '#005':
                         self.game_data['event_multiply_score'] = 3
 
@@ -288,6 +290,7 @@ class PadBallGame:
 
                         # Back to Original value
                         self.game_data['event_multiply_score'] = 1
+                        self.game_data['event_save_ball'] = False
                         self.wood_paddle.width = 200
                 """"""
 
@@ -300,8 +303,15 @@ class PadBallGame:
             """"""
 
             """ Draw ball """
-            self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active'])
+            self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active']
+                                   , self.save_ball_paddle, self.game_data['event_save_ball'])
             self.ball_game.draw(self.screen)
+            """"""
+
+            """ Paddle Save Ball (When on Event Bonus) """
+            if self.game_data['event_save_ball']:
+                print('saving...')
+                self.save_ball_paddle.draw(self.screen)
             """"""
 
             """ Updates score when ball hit wood_paddle"""
