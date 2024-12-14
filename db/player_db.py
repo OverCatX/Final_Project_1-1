@@ -9,7 +9,7 @@ class PlayerDB:
         if not os.path.exists(self.players_db):
             with open(self.players_db, mode='w') as file:
                 writer = csv.writer(file)
-                writer.writerow(['Username', 'HighScore', 'ReleaseScore'])
+                writer.writerow(['Username', 'HighScore'])
         self.data = []
 
     def player_exists(self, username) -> bool:
@@ -25,7 +25,7 @@ class PlayerDB:
         if not self.player_exists(username):
             with open(self.players_db, mode='a') as file:
                 writer = csv.writer(file)
-                writer.writerow([username, 0, 0])
+                writer.writerow([username, 0])
             print(f'{username} was added to Database')
             return Player(username, 0, 0)
         else:
@@ -33,7 +33,7 @@ class PlayerDB:
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['Username'] == username:
-                        return Player(row['Username'], row['HighScore'], row['ReleaseScore'])
+                        return Player(row['Username'], row['HighScore'])
 
     def set_new_highscore(self, username, highscore):
         with open(self.players_db, mode='r', encoding="utf-8") as file:
@@ -57,10 +57,9 @@ class PlayerDB:
         return data
 
 class Player:
-    def __init__(self, username: str, highscore: int, release_score: int):
+    def __init__(self, username: str, highscore: int):
         self.username = username
         self.highscore = highscore
-        self.release_score = release_score
 
     def updates_best_score(self, score):
         self.highscore = score
@@ -68,4 +67,4 @@ class Player:
         print(f'updated {self.username} highscore data')
 
     def __str__(self):
-        return f'Player: {self.username}, HighScore: {self.highscore}, ReleaseScore: {self.release_score}'
+        return f'Player: {self.username}, HighScore: {self.highscore}'
