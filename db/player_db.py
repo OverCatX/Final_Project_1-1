@@ -3,7 +3,6 @@ import os.path
 
 database_file = 'db/players.csv'
 
-
 class PlayerDB:
     def __init__(self, db_file=database_file):
         self.players_db = db_file
@@ -48,6 +47,14 @@ class PlayerDB:
             writer = csv.writer(file)
             writer.writerow(header)
             writer.writerows(self.data)
+
+    def get_all_data(self):
+        data = []
+        with open(self.players_db, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                data.append(row)
+        return data
 
 class Player:
     def __init__(self, username: str, highscore: int, release_score: int):
