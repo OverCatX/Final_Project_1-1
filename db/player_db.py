@@ -48,13 +48,13 @@ class PlayerDB:
             writer.writerow(header)
             writer.writerows(self.data)
 
-    def get_all_data(self):
+    def get_leaderboard(self):
         data = []
         with open(self.players_db, mode='r') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 data.append(row)
-        return data
+        return sorted(data, key=lambda x: int(x["HighScore"]), reverse=True)
 
 class Player:
     def __init__(self, username: str, highscore: int):
