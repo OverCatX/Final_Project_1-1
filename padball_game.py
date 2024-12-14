@@ -100,7 +100,11 @@ class PadBallGame:
             "report": Button(200, 500, 200, 60, "Report", (255, 255, 255), (200, 128, 0)),
             "exit": Button(200, 600, 200, 60, "Exit", (255, 255, 255), (200, 0, 0)),
             "back": Button(300, 500, 200, 60, "Back", (255, 255, 255), (100, 100, 100)),
-            "login_button": Button(200, 600, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0))
+            "login_button": Button(200, 500, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0)),
+            "login_back_button": Button(200, 600, 200, 60, "Back", (255, 255, 255), (255, 0, 0)),
+            "leaderboard_back": Button(225, 500, 150, 60,  "Back", (255, 255, 255),(100, 100, 100)),
+            "game_over_play_again": Button(200, 500, 200, 50,  "Play Again", (255, 255, 255),(50, 200, 50)),
+            "game_over_home": Button(200, 600, 200, 50, "Main Menu", (255, 255, 255), (255, 0, 0))
         }
 
         self.color_codes = {
@@ -129,6 +133,7 @@ class PadBallGame:
             """"""
 
             self.buttons['login_button'].draw(self.screen)
+            self.buttons['login_back_button'].draw(self.screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -149,6 +154,8 @@ class PadBallGame:
                         player_db = PlayerDB()
                         self.player = player_db.player_login(self.game_data['username'])
                         self.game_data['state'] = "lobby"
+                    elif self.buttons['login_back_button'].is_clicked(mouse_pos):
+                        self.game_data['state'] = 'home'
                     """"""
 
             pygame.display.flip()
@@ -183,9 +190,9 @@ class PadBallGame:
                     if self.buttons['start'].is_clicked(mouse_pos):
                         self.game_data['state'] = "authorization"
                     elif self.buttons['leaderboard'].is_clicked(mouse_pos):
-                        print("Leaderboard clicked!")
+                        self.game_data['state'] = "leaderboard"
                     elif self.buttons['report'].is_clicked(mouse_pos):
-                        self.game_data['state'] = "home"
+                        self.game_data['state'] = "game_over"
                     elif self.buttons['exit'].is_clicked(mouse_pos):
                         pygame.quit()
                         sys.exit()
@@ -321,7 +328,7 @@ class PadBallGame:
 
             """ Slowed Ball (When on Event Bonus) """
             if self.game_data['event_slowed_ball'] and self.game_data['ball_set']:
-                print('run slow', self.game_data['ball_set'])
+                # print('run slow', self.game_data['ball_set'])
                 self.ball_game.vx *= self.game_data['ball_speed_slow_multiply']
                 self.ball_game.vy *= self.game_data['ball_speed_slow_multiply']
                 self.game_data['ball_set'] = False
@@ -372,6 +379,86 @@ class PadBallGame:
             pygame.display.flip()
             self.clock.tick(60)
 
+    def game_over(self):
+        while self.game_data['state'] == 'game_over':
+            """ Set White Background Screen """
+            self.screen.fill(self.game_data['screen_color'])
+            """"""
+
+            game_over_text = self.fonts['Large'].render("Game Over", True, self.color_codes['black'])
+            game_over_rect = game_over_text.get_rect(center=(self.screen_width // 2, 200))
+            self.screen.blit(game_over_text, game_over_rect)
+
+            score_text = self.fonts['Large'].render(f"Your Score: {self.game_data['scores']}", True, self.color_codes['black'])
+            score_rect = score_text.get_rect(center=(self.screen_width // 2, 300))
+            self.screen.blit(score_text, score_rect)
+
+            self.buttons['game_over_play_again'].draw(self.screen)
+            self.buttons['game_over_home'].draw(self.screen)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.mixer.music.stop()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    if self.buttons['game_over_play_again'].is_clicked(mouse_pos):
+                        self.game_data['state'] = "lobby"
+                    elif self.buttons['game_over_home'].is_clicked(mouse_pos):
+                        self.game_data['state'] = "home"
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
+    def leaderboard(self):
+        while self.game_data['state'] == 'leaderboard':
+
+            """ Set White Background Screen """
+            self.screen.fill(self.color_codes['white'])
+            """"""
+
+            """ Title text >< """
+            title_text = self.fonts['Large'].render("Leaderboard", True, self.color_codes['black'])
+            title_rect = title_text.get_rect(center=(self.screen_width // 2, 50))
+            self.screen.blit(title_text, title_rect)
+            """"""
+
+            y_start = 100
+            row_height = 50
+
+            sorted_player_score = sorted(PlayerDB().get_all_data(), key=lambda x: x["HighScore"], reverse=True)
+            for i, data in enumerate(sorted_player_score[:10]):
+                no = i + 1
+                name = data["Username"]
+                high_score = data["HighScore"]
+                # Highlight player
+                color = (200, 200, 50) if no == 1 else self.color_codes['black']
+                no_text = self.fonts['Small'].render(f"{no}.", True, color)
+                name_text = self.fonts['Small'].render(name, True, color)
+                score_text = self.fonts['Small'].render(str(high_score), True, color)
+                rank_rect = no_text.get_rect(left=50, top=y_start + i * row_height)
+                name_rect = name_text.get_rect(left=100, top=y_start + i * row_height)
+                high_score_rect = score_text.get_rect(right=self.screen_width - 50, top=y_start + i * row_height)
+                self.screen.blit(no_text, rank_rect)
+                self.screen.blit(name_text, name_rect)
+                self.screen.blit(score_text, high_score_rect)
+
+            self.buttons['leaderboard_back'].draw(self.screen)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.mixer.music.stop()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    if self.buttons['leaderboard_back'].is_clicked(mouse_pos):
+                        self.game_data['state'] = "home"
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
     def run(self):
         while self.running:
             if self.game_data['state'] == 'authorization':
@@ -380,8 +467,12 @@ class PadBallGame:
                 self.home_screen()
             elif self.game_data['state'] == 'lobby':
                 self.on_game()
+            elif self.game_data['state'] == 'leaderboard':
+                self.leaderboard()
             elif self.game_data['state'] == 'on_game':
                 self.on_game()
+            elif self.game_data['state'] == 'game_over':
+                self.game_over()
         pygame.quit()
         sys.exit()
 
