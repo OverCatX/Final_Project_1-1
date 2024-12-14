@@ -5,7 +5,8 @@ class Ball(FloatingObject):
                  , color: tuple[int, int, int] = (0, 0, 0), screen_width: int = 800, screen_height: int = 600):
         super().__init__(size, x, y, vx, vy, color, screen_width, screen_height)
 
-    def updates(self, paddle=None, wood_paddle=None, mystery_box=None, box_active=False):
+    def updates(self, paddle=None, wood_paddle=None, mystery_box=None, box_active=False
+                , save_ball_paddle=None, save_ball_active=False):
         super().updates()
         if paddle is not None:
             self.on_hit_paddle(paddle)
@@ -13,6 +14,8 @@ class Ball(FloatingObject):
             self.on_hit_wood_paddle(wood_paddle)
         if mystery_box is not None:
             self.on_hit_mystery_box(mystery_box, box_active)
+        if save_ball_paddle is not None:
+            self.on_hit_save_paddle(save_ball_paddle, save_ball_active)
 
     def on_hit_screen_edge(self):
         if self.x - self.size < 0 or self.x + self.size > self.screen_width:
@@ -63,6 +66,24 @@ class Ball(FloatingObject):
                 self.vx = abs(self.vx)
                 self.x = paddle.x + paddle.width + self.size
                 print("+1 (right)")
+            return True
+        return False
+
+    def on_hit_save_paddle(self, paddle, save_ball_active) -> bool:
+        if (save_ball_active and paddle.x - self.size <= self.x <= paddle.x + paddle.width + self.size and
+                paddle.y - self.size <= self.y <= paddle.y + paddle.height + self.size):
+            if paddle.y - self.size <= self.y <= paddle.y:
+                self.vy = -abs(self.vy)
+                self.y = paddle.y - self.size
+            elif paddle.y + paddle.height <= self.y <= paddle.y + paddle.height + self.size:  # Bottom
+                self.vy = abs(self.vy)
+                self.y = paddle.y + paddle.height + self.size
+            elif paddle.x - self.size <= self.x <= paddle.x:  # Left
+                self.vx = -abs(self.vx)
+                self.x = paddle.x - self.size
+            elif paddle.x + paddle.width <= self.x <= paddle.x + paddle.width + self.size:
+                self.vx = abs(self.vx)
+                self.x = paddle.x + paddle.width + self.size
             return True
         return False
 
