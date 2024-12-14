@@ -112,6 +112,7 @@ class PadBallGame:
         self.color_codes = {
             'white': (255, 255, 255),
             'black': (0, 0, 0),
+            'red': (255,0,0),
             'gray' : (128,128,128),
             'lavender': (230, 230, 250),
             'thistle': (216, 191, 216)
@@ -287,7 +288,7 @@ class PadBallGame:
             self.screen.blit(mystery_box_text, (self.screen_width // 2 - mystery_box_text.get_width() // 2, 150))
 
             """ Mystery Box """
-            if self.game_data['scores'] >= 1:
+            if self.game_data['scores'] >= 10:
                 # If hit mystery_box
                 if self.ball_game.on_hit_mystery_box(self.mystery_box, self.game_data['mystery_box_active']):
                     self.game_data['mystery_box_active'] = False
@@ -385,9 +386,9 @@ class PadBallGame:
             """ Big Paddle (When on Event Bonus) """
             if self.game_data['event_big_paddle']:
                 # print('big big big')
-                self.wood_paddle = Paddle(self.screen_width, 20, 0, 0, (0, 0, 0), speed=0)
+                self.wood_paddle = Paddle(self.screen_width, 20, 0, 0, self.color_codes['black'], speed=0)
             else:
-                self.wood_paddle = Paddle(200,25,(self.screen_width - 200)//2, 0,(0,0,0), speed=0)
+                self.wood_paddle = Paddle(200,25,(self.screen_width - 200)//2, 0,self.color_codes['black'], speed=0)
             """"""
 
             """ Paddle Save Ball (When on Event Bonus) """
@@ -441,6 +442,10 @@ class PadBallGame:
             score_rect = score_text.get_rect(center=(self.screen_width // 2, 300))
             self.screen.blit(score_text, score_rect)
 
+            high_score_text = self.fonts['Medium'].render(f"Best Score: {self.game_data['scores']}", True, self.color_codes['red'])
+            high_score_rect = high_score_text.get_rect(center=(self.screen_width // 2, 400))
+            self.screen.blit(high_score_text, high_score_rect)
+
             self.buttons['game_over_play_again'].draw(self.screen)
             self.buttons['game_over_home'].draw(self.screen)
 
@@ -481,7 +486,7 @@ class PadBallGame:
                 name = data["Username"]
                 high_score = data["HighScore"]
                 # Highlight player
-                color = (200, 200, 50) if no == 1 else self.color_codes['black']
+                color = (200, 200, 50) if self.game_data['username'].lower() == name else self.color_codes['black']
                 no_text = self.fonts['Small'].render(f"{no}.", True, color)
                 name_text = self.fonts['Small'].render(name, True, color)
                 score_text = self.fonts['Small'].render(str(high_score), True, color)
