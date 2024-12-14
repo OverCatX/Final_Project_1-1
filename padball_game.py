@@ -24,7 +24,7 @@ class PadBallGame:
 
         """ Background Music No cc."""
         self.sound = Sound()
-        self.sound.run_background_sound()
+        # self.sound.run_background_sound()
         """"""
 
         self.running = True
@@ -480,7 +480,7 @@ class PadBallGame:
             y_start = 100
             row_height = 50
 
-            print(PlayerDB().get_leaderboard())
+            # print(PlayerDB().get_leaderboard())
             for i, data in enumerate(PlayerDB().get_leaderboard()[:10]):
                 no = i + 1
                 name = data["Username"]
