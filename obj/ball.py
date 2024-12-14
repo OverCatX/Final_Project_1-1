@@ -21,8 +21,9 @@ class Ball(FloatingObject):
         if self.x - self.size < 0 or self.x + self.size > self.screen_width:
             self.vx = -self.vx
             self.sound.run_sound('paddle')
-        if self.y - self.size < 0 or self.y + self.size > self.screen_height:
+        if self.y - self.size < 0:
             self.vy = -self.vy
+            # print(self.y)
             self.sound.run_sound('paddle')
 
     def on_hit_paddle(self, paddle):
