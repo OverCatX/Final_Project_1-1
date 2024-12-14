@@ -267,7 +267,7 @@ class PadBallGame:
                     self.game_data['screen_color'] = self.color_codes['thistle']
 
                     # Set event
-                    self.game_data['event_id'] = '#002'
+                    self.game_data['event_id'] = self.game_data['event_random_select']
                     # print(self.game_data['event_id'])
                     self.game_data['event_duration'] = self.events[self.game_data['event_id']]['duration']
 
