@@ -282,13 +282,13 @@ class PadBallGame:
             
             score_text = self.fonts['Medium'].render(f"Score {self.game_data['scores']}", True, (0, 0, 0))
             best_score_text = self.fonts['Small'].render(f"BestScore {self.player.highscore}", True, (255, 0, 0))
-            mystery_box_text = self.fonts['Small'].render(f"To get bonus-box scores must more than 10", True, (0, 0, 0))
+            mystery_box_text = self.fonts['Small'].render(f"To get bonus-box scores must more than 2", True, (0, 0, 0))
             self.screen.blit(score_text, (self.screen_width // 2 - score_text.get_width() // 2, 100))
             self.screen.blit(best_score_text, (self.screen_width // 2 - best_score_text.get_width() // 2, 130))
             self.screen.blit(mystery_box_text, (self.screen_width // 2 - mystery_box_text.get_width() // 2, 150))
 
             """ Mystery Box """
-            if self.game_data['scores'] >= 10:
+            if self.game_data['scores'] >= 2:
                 # If hit mystery_box
                 if self.ball_game.on_hit_mystery_box(self.mystery_box, self.game_data['mystery_box_active']):
                     self.game_data['mystery_box_active'] = False
@@ -480,8 +480,8 @@ class PadBallGame:
             y_start = 100
             row_height = 50
 
-            sorted_player_score = sorted(PlayerDB().get_all_data(), key=lambda x: x["HighScore"], reverse=True)
-            for i, data in enumerate(sorted_player_score[:10]):
+            print(PlayerDB().get_leaderboard())
+            for i, data in enumerate(PlayerDB().get_leaderboard()[:10]):
                 no = i + 1
                 name = data["Username"]
                 high_score = data["HighScore"]
