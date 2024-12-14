@@ -27,7 +27,7 @@ class PlayerDB:
                 writer = csv.writer(file)
                 writer.writerow([username, 0])
             print(f'{username} was added to Database')
-            return Player(username, 0, 0)
+            return Player(username, 0)
         else:
             with open(self.players_db, mode='r') as file:
                 reader = csv.DictReader(file)
