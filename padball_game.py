@@ -31,6 +31,9 @@ class PadBallGame:
             'username': '',
             'state': 'home',
             'scores': 0,
+            'ball_speed_origin': 10,
+            'ball_speed_slow_multiply': 0.8,
+            'ball_set': True,
             'mystery_box_active': False,
             'mystery_box_timer': 0,
             'mystery_box_appear_time': 0,
@@ -42,6 +45,8 @@ class PadBallGame:
             'event_duration': 0,
             'event_random_select': '',
             'event_multiply_score': 1,
+            'event_slowed_ball': False,
+            'event_big_paddle': False,
             'event_save_ball': False
         }
         self.events = {
@@ -73,9 +78,9 @@ class PadBallGame:
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
                                for i in range(10)]
-        self.ball_game = Ball(20, x=self.screen_width //2,y=self.screen_height//2, vx=10
-                               , vy=10, color=(0,0,0)
-                               ,screen_width=self.screen_width, screen_height=self.screen_height)
+        self.ball_game = Ball(20, x=self.screen_width //2, y=self.screen_height//2, vx=self.game_data['ball_speed_origin']
+                              , vy=self.game_data['ball_speed_origin'], color=(0,0,0)
+                              , screen_width=self.screen_width, screen_height=self.screen_height)
         self.mystery_box = MysteryBlock(50,50, 0, 0, (255,195,0))
 
         self.paddle = Paddle(150,30,(self.screen_width - 100 )//2, self.screen_height - 120,(0,0,255), speed=25)
@@ -262,16 +267,16 @@ class PadBallGame:
                     self.game_data['screen_color'] = self.color_codes['thistle']
 
                     # Set event
-                    self.game_data['event_id'] = self.game_data['event_random_select']
+                    self.game_data['event_id'] = '#002'
                     # print(self.game_data['event_id'])
                     self.game_data['event_duration'] = self.events[self.game_data['event_id']]['duration']
 
                     if self.game_data['event_id'] == '#001':
                         self.game_data['event_multiply_score'] = 2
                     elif self.game_data['event_id'] == '#002':
-                        pass
+                        self.game_data['event_slowed_ball'] = True
                     elif self.game_data['event_id'] == '#003':
-                        self.wood_paddle.width = self.screen_width
+                        self.game_data['event_big_paddle'] = True
                     elif self.game_data['event_id'] == '#004':
                         self.game_data['event_save_ball'] = True
                     elif self.game_data['event_id'] == '#005':
@@ -288,10 +293,16 @@ class PadBallGame:
                         self.game_data['event_status'] = False  # End event ><
                         self.game_data['screen_color'] = self.color_codes['lavender']
 
-                        # Back to Original value
+                        # Back to Default value (1,False,False,False,3)
                         self.game_data['event_multiply_score'] = 1
+                        self.game_data['event_slowed_ball'] = False
+                        self.game_data['event_big_paddle'] = False
                         self.game_data['event_save_ball'] = False
-                        self.wood_paddle.width = 200
+                        # Return Ball v to origin ><
+                        if not self.game_data['ball_set']:
+                            self.ball_game.vx = self.game_data['ball_speed_origin']
+                            self.ball_game.vy = self.game_data['ball_speed_origin']
+                            self.game_data['ball_set'] = True
                 """"""
 
             """ Draw Wood Paddle """
@@ -308,9 +319,25 @@ class PadBallGame:
             self.ball_game.draw(self.screen)
             """"""
 
+            """ Slowed Ball (When on Event Bonus) """
+            if self.game_data['event_slowed_ball'] and self.game_data['ball_set']:
+                print('run slow', self.game_data['ball_set'])
+                self.ball_game.vx *= self.game_data['ball_speed_slow_multiply']
+                self.ball_game.vy *= self.game_data['ball_speed_slow_multiply']
+                self.game_data['ball_set'] = False
+            """"""
+
+            """ Big Paddle (When on Event Bonus) """
+            if self.game_data['event_big_paddle']:
+                # print('big big big')
+                self.wood_paddle = Paddle(self.screen_width, 20, 0, 0, (0, 0, 0), speed=0)
+            else:
+                self.wood_paddle = Paddle(200,25,(self.screen_width - 200)//2, 0,(0,0,0), speed=0)
+            """"""
+
             """ Paddle Save Ball (When on Event Bonus) """
             if self.game_data['event_save_ball']:
-                print('saving...')
+                # print('saving...')
                 self.save_ball_paddle.draw(self.screen)
             """"""
 
