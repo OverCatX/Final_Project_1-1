@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 
 import pygame
 from db.player_db import PlayerDB
@@ -37,7 +38,8 @@ class PadBallGame:
             'mystery_box_active': False,
             'mystery_box_timer': 0,
             'mystery_box_appear_time': 0,
-            'time_start': 3,
+            'time_start': 0,
+            'time_countdown': 1,
             'screen_color': (255, 255, 255),
             'event_status': False,
             'event_id': '', #001 = x2 score (10secs), #002 = slowed ball (10 secs), #003 = expanded wood paddle(5 secs), #004 = save ball(10 sec), #005 x3 score(10 sec)
@@ -123,7 +125,6 @@ class PadBallGame:
         self.game_data['mystery_box_active'] = False
         self.game_data['mystery_box_timer'] = 0
         self.game_data['mystery_box_appear_time'] = 0
-        self.game_data['time_start'] = 3
         self.game_data['screen_color'] = (255, 255, 255)
         self.game_data['event_status'] = False
         self.game_data['event_id'] = ''
@@ -141,7 +142,7 @@ class PadBallGame:
             random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                                               , screen_width=self.screen_width, screen_height=self.screen_height)
                                for i in range(10)]
-        self.ball_game = Ball(20, x=self.screen_width // 2, y=self.screen_height // 2,
+        self.ball_game = Ball(20, x=self.screen_width // 2, y=50,
                               vx=self.game_data['ball_speed_origin']
                               , vy=self.game_data['ball_speed_origin'], color=(0, 0, 0)
                               , screen_width=self.screen_width, screen_height=self.screen_height)
@@ -158,7 +159,7 @@ class PadBallGame:
             """"""
 
             title_text = self.fonts['Large'].render("Enter Your Username", True, self.color_codes['black'])
-            subtitle_text = self.fonts['Small'].render("The length of the name must not exceed 10 characters.", True, self.color_codes['gray'])
+            subtitle_text = self.fonts['Small'].render("The length of the name must not exceed 15 characters.", True, self.color_codes['gray'])
             self.screen.blit(title_text, (self.screen_width // 2 - title_text.get_width() // 2, 100))
             self.screen.blit(subtitle_text, (self.screen_width // 2 - subtitle_text.get_width() // 2, 200))
 
@@ -180,7 +181,7 @@ class PadBallGame:
                         self.game_data['username'] = self.game_data['username'][:-1]
                     elif event.key == pygame.K_RETURN and self.game_data['username'].strip():
                         self.game_data['state'] = "home"
-                    elif len(self.game_data['username']) < 10:
+                    elif len(self.game_data['username']) < 15:
                         self.game_data['username'] += event.unicode
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
@@ -228,7 +229,7 @@ class PadBallGame:
                     elif self.buttons['leaderboard'].is_clicked(mouse_pos):
                         self.game_data['state'] = "leaderboard"
                     elif self.buttons['report'].is_clicked(mouse_pos):
-                        self.game_data['state'] = "game_over"
+                        self.game_data['state'] = "home"
                     elif self.buttons['exit'].is_clicked(mouse_pos):
                         pygame.quit()
                         sys.exit()
@@ -272,6 +273,7 @@ class PadBallGame:
     
     def on_game(self):
         self.turn_default_data()
+        self.game_data['time_start'] = time.time()
         while self.game_data['state'] == 'lobby':
             """ Set White Background Screen """
             self.screen.fill(self.game_data['screen_color'])
@@ -279,8 +281,10 @@ class PadBallGame:
             
             score_text = self.fonts['Medium'].render(f"Score {self.game_data['scores']}", True, (0, 0, 0))
             best_score_text = self.fonts['Small'].render(f"BestScore {self.player.highscore}", True, (255, 0, 0))
+            mystery_box_text = self.fonts['Small'].render(f"To get bonus-box scores must more than 10", True, (0, 0, 0))
             self.screen.blit(score_text, (self.screen_width // 2 - score_text.get_width() // 2, 100))
             self.screen.blit(best_score_text, (self.screen_width // 2 - best_score_text.get_width() // 2, 130))
+            self.screen.blit(mystery_box_text, (self.screen_width // 2 - mystery_box_text.get_width() // 2, 150))
 
             """ Mystery Box """
             if self.game_data['scores'] >= 1:
@@ -358,9 +362,11 @@ class PadBallGame:
             """"""
 
             """ Draw ball """
-            self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active']
-                                   , self.save_ball_paddle, self.game_data['event_save_ball'])
             self.ball_game.draw(self.screen)
+            # Wait ball falling for game_data['time_countdown'] seconds
+            if time.time() - self.game_data['time_start'] > self.game_data['time_countdown']:
+                self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active']
+                                   , self.save_ball_paddle, self.game_data['event_save_ball'])
             """"""
 
             """ Check game over"""
