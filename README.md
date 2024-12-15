@@ -51,12 +51,12 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
    cd PadballGame-V.1
    ```
 2. Install Dependencies:\
-    - Ensure you have Python 3.10+ installed.
+    <sub>Ensure you have Python 3.10+ installed.</sub>
     ```shell
     python --version
     ```
 3. Run Game:\
-    - Execute the main file to start the game:
+    <sub>Execute the main file to start the game:</sub>
     ``` shell
     python padball_game.py
     ```
