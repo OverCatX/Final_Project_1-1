@@ -109,7 +109,7 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 - Expected Outputs:
     - Real-time score updates as you hit mystery boxes or activate bonuses.
 
-For a detailed walkthrough of the gameplay, watch the demo video.
+For a detailed walkthrough of the gameplay, watch the [demo video.](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
 
 ## Project Design and Implementation
 
@@ -310,8 +310,29 @@ For a detailed walkthrough of the gameplay, watch the demo video.
       - **Role in the Game**
         - Interface Element: Provides a way for players or users to interact with the game, such as starting a game, pausing, or accessing settings.
         - Event Handling: Detects and responds to user clicks for interactive functionality.
+
+## Code Implementation Details
+- **Baseline Code Modifications:**
+  - Extend
+- **Leaderboard System:**
+  - implement
+
+## Testing and Known Issues:
+- **Testing:**
+  - Conducted multiple gameplay tests to ensure all features work as intended
+  - Verified bonus event triggers scoring mechanics, and learboard updates
+- **Known Bugs:**
+  - Occasionally, rapid ball-paddle collisions may not go in direction correctly in high-speed(vx,vy > 20) modes.
+
 ## Project Sophistication Level
 **Rating: 90**
 - Reason: Includes dynamic gameplay with multiple event-driven mechanics and object interactions. Features bonus events, a leaderboard system, and progressive difficulty, making it more advanced than basic pong games but not as complex as multi-object simulations like snooker.
 
 ## Demo Video
+Watch the Project demonstration here: [Padball Demo Video](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
+
+## Submission
+- **GitHub Repository:** [Padball Repository]()
+- **Demo Video:** [Padball Demo Video]()
+
+Enjoy playing PadballGame ><
