@@ -55,8 +55,11 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
     ```shell
     python --version
     ```
-3. Install Pygame:
+3. Install Pygame:\
     <sub>Use pip to install Pygame, which is required for this project.</sub>
+    ``` shell
+    pip install pygame
+    ```
 4. Run Game:\
     <sub>Execute the main file to start the game:</sub>
     ``` shell
