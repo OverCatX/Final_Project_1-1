@@ -109,7 +109,7 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 - Expected Outputs:
     - Real-time score updates as you hit mystery boxes or activate bonuses.
 
-For a detailed walkthrough of the gameplay, watch the [demo video.](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
+For a detailed walkthrough of the gameplay, watch the [demo video.](https://github.com/OverCatX/PadballGame-V.1/tree/main?tab=readme-ov-file#demo-video)
 
 ## Project Design and Implementation
 
