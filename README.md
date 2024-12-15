@@ -42,7 +42,7 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 - Intuitive controls suitable
 
 ## How to Install and Run the Project
-**1. Clone the Repository:**
+1. Clone the Repository:
     ```shell 
    git clone https://github.com/OverCatX/PadballGame-V.1.git
    ```
@@ -50,13 +50,13 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
    ```shell
    cd PadballGame-V.1
    ```
-**2. Install Dependencies:\**
-    Ensure you have Python 3.10+ installed.
+2. Install Dependencies:\
+    - Ensure you have Python 3.10+ installed.
     ```shell
     python --version
     ```
-**3. Run Game:\**
-    Execute the main file to start the game:
+3. Run Game:\
+    - Execute the main file to start the game:
     ``` shell
     python padball_game.py
     ```
