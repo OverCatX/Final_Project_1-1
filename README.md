@@ -45,3 +45,21 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 - Use the Left Arrow Key (←) to move the paddle to the left.
 - Use the Right Arrow Key (→) to move the paddle to the right.
 - Your goal is to bounce the ball back into play and hit mystery boxes to score points.
+
+## Usage:
+- Game Controls:
+    - Use the arrow keys to move the paddle left or right.
+    - Bounce the ball to hit mystery boxes and activate bonuses.
+- Gameplay Example:
+    - Start the game and control the paddle to keep the ball in play.
+    - A mystery box appears when your score more than 2 at random position; hit it to activate a bonus events.
+    - Avoid letting the ball fall off the screen.
+- Leaderboard:
+    - After each game, your score is compared to previous high scores.
+    - The leaderboard displays the top 10 best scores player along with player names or initials.
+- Expected Outputs:
+    - Real-time score updates as you hit mystery boxes or activate bonuses.
+
+## Project Sophistication Level
+Rating: 90
+- Reason: Includes dynamic gameplay with multiple event-driven mechanics and object interactions. Features bonus events, a leaderboard system, and progressive difficulty, making it more advanced than basic pong games but not as complex as multi-object simulations like snooker.
