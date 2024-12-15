@@ -6,40 +6,64 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 
 ## Features
 ### Gameplay Elements:
-- Player-Controlled Paddle:
+- **Player-Controlled Paddle:**
     - The paddle is the primary tool the player uses to bounce the ball.
     - Players must skillfully move the paddle left and right to keep the ball in play and when your scores more than 2 there will have MysteryBox-Bonus appear you can aim for targets like the mystery boxes to get a good random bonus.
-- Bouncing Ball Mechanic:
+- **Bouncing Ball Mechanic:**
     - The ball moves dynamically and reacts to collisions with the paddle and other elements in the game.
     - The challenge lies in timing and positioning the paddle correctly to keep the ball bouncing and in play.
-- Mystery Boxes:
+- **Mystery Boxes:**
     - Mystery boxes appear at random positions on the screen.
     - Mystery boxes appear when player scores more than 2.
     - The player aims to hit these boxes with the ball to trigger special events or score points.
     - Adds a layer of strategy as the player decides whether to focus on mystery boxes or simply keep the ball in play.
 
 ### Bonus Events:
-- Double Points:
-    - 5 seconds bonus to double the points scored.
-- Triple Points:
-    - 5 seconds bonus to triple the points scored.
-- Slow Ball:
-    - 10 seconds momentarily slows down the ball for precise control. 
-- Paddle Transformations:
+- **Double Points:**
+    - 10 seconds bonus to double the points scored.
+    - Encourages the player to aim for high-scoring plays while the bonus is active.
+- **Triple Points:**
+    - 6 seconds bonus to triple the points scored.
+    - Increases the excitement as players strive for their best moves during this period.
+- **Slow Ball:**
+    - 10 seconds momentarily slows down the ball for precise control.
+    - A helpful event for players when the game becomes fast-paced and challenging.
+- **Paddle Transformations:**
     - 5 seconds change paddle size or shape for additional challenges.
-- Save Ball Paddle:
-    - Adds a safety net for 5 seconds.
+    - For instance, a full-width paddle makes it easier to keep the ball in play but may also require faster reflexes due to increased collision frequency.
+- **Save Ball Paddle:**
+    - Adds a safety net for 10 seconds.
+    - This paddle automatically saves the ball if it falls, preventing immediate game over and giving the player another chance to score.
 
 ### Leaderboard System:
 - Compete for the top score with other players.
+- Scores are sorted in descending order to showcase the best-performing players at the top.
+- The game tracks the top 10 scores, encouraging players to compete for the highest rankings.
+- Players can enter their name to personalize their high score when they achieve a new record.
+- The leaderboard updates automatically as players complete games and score points, reflecting the latest high scores in real-time.
+- By showcasing the top scores, the leaderboard motivates players to keep playing to beat their previous records or outperform others.
 - Automatically records and displays the top 10 best scores after every game.
 - Saves best scores locally, ensuring your progress is never lost.
 
 ### Progressive Difficulty:
 - The game introduces faster ball speeds and fewer bonuses over time.
 
-### Friendly-Controls:
-- Intuitive controls suitable
+### Advanced Mechanics:
+- **Randomized Elements:**
+  - Mystery boxes and bonus events are randomized, ensuring that each game feels unique and keeps the player engaged.
+- **Difficulty Scaling:**
+  - As the game progresses, the ball may speed up or require more precision to keep the player on their toes.
+
+### Player Objectives
+- **Score Points:**
+  - The primary goal is to score as many points as possible by hitting mystery boxes and keeping the ball in play.
+  - Competing with others or their past performances adds a layer of excitement and replayability.
+- **Climb the Leaderboard:**
+  - Players aim to achieve a score high enough to appear in the Top 10.
+  - Competing with others or their past performances adds a layer of excitement and replayability.
+- **Survive:**
+  - Avoid letting the ball fall off the screen, which ends the game.
+  - Use skill, reflexes, and bonus events like the save ball paddle to extend gameplay.
 
 ## How to Install and Run the Project
 1. Clone the Repository:
