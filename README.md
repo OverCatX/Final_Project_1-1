@@ -51,13 +51,19 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
    cd PadballGame-V.1
    ```
 2. Install Dependencies:
+    ```
     Ensure you have Python 3.10+ installed.
+    ```
     ```shell
     python --version
     ```
 3. Run Game:
-    - Execute the main file to start the game:
+    ```
+    Execute the main file to start the game:
+    ```
+    ``` shell
     python padball_game.py
+    ```
 
 ## How to Control
 - Use the Left Arrow Key (←) to move the paddle to the left.
