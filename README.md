@@ -113,6 +113,8 @@ For a detailed walkthrough of the gameplay, watch the demo video.
 
 ## Project Design and Implementation
 
+- ### UML Class
+  - !
 
 ## Project Sophistication Level
 **Rating: 90**
