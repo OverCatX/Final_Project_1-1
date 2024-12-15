@@ -332,7 +332,7 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
 Watch the Project demonstration here: [Padball Demo Video](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
 
 ## Submission
-- **GitHub Repository:** [Padball Repository]()
-- **Demo Video:** [Padball Demo Video]()
+- **GitHub Repository:** [Padball Repository](https://github.com/OverCatX/PadballGame-V.1/tree/main)
+- **Demo Video:** [Padball Demo Video](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
 
 Enjoy playing PadballGame ><
