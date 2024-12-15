@@ -19,7 +19,7 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
     - Adds a layer of strategy as the player decides whether to focus on mystery boxes or simply keep the ball in play.
 
 ### Bonus Events:
-- Double Points: 
+- **Double Points:**
     - 5 seconds bonus to double the points scored.
 - Triple Points:
     - 5 seconds bonus to triple the points scored.
@@ -50,17 +50,13 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
    ```shell
    cd PadballGame-V.1
    ```
-2. Install Dependencies:
-    ```
+2. Install Dependencies:\
     Ensure you have Python 3.10+ installed.
-    ```
     ```shell
     python --version
     ```
-3. Run Game:
-    ```
+3. Run Game:\
     Execute the main file to start the game:
-    ```
     ``` shell
     python padball_game.py
     ```
@@ -85,5 +81,5 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
     - Real-time score updates as you hit mystery boxes or activate bonuses.
 
 ## Project Sophistication Level
-Rating: 90
+**Rating: 90**
 - Reason: Includes dynamic gameplay with multiple event-driven mechanics and object interactions. Features bonus events, a leaderboard system, and progressive difficulty, making it more advanced than basic pong games but not as complex as multi-object simulations like snooker.
