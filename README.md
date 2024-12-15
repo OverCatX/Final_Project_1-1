@@ -41,6 +41,17 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 ### Friendly-Controls:
 - Intuitive controls suitable
 
+## How to Install and Run the Project
+1. Clone the Repository:
+    git clone https://github.com/OverCatX/PadballGame-V.1.git
+    cd PadballGame-V.1
+2. Install Dependencies:
+    - Ensure you have Python 3.10+ installed.
+        python --version
+3. Run Game:
+    - Execute the main file to start the game:
+    python padball_game.py
+
 ## How to Control
 - Use the Left Arrow Key (←) to move the paddle to the left.
 - Use the Right Arrow Key (→) to move the paddle to the right.
