@@ -24,7 +24,7 @@ class PadBallGame:
 
         """ Background Music No cc."""
         self.sound = Sound()
-        # self.sound.run_background_sound()
+        self.sound.run_background_sound()
         """"""
 
         self.running = True
@@ -104,7 +104,7 @@ class PadBallGame:
             "back": Button(300, 500, 200, 60, "Back", (255, 255, 255), (100, 100, 100)),
             "login_button": Button(200, 500, 200, 60, "Enter Game", (255, 255, 255), (0, 200, 0)),
             "login_back_button": Button(200, 600, 200, 60, "Back", (255, 255, 255), (255, 0, 0)),
-            "leaderboard_back": Button(225, 500, 150, 60,  "Back", (255, 255, 255),(100, 100, 100)),
+            "leaderboard_back": Button(225, 700, 150, 60,  "Back", (255, 255, 255),(100, 100, 100)),
             "game_over_play_again": Button(200, 500, 200, 50,  "Play Again", (255, 255, 255),(50, 200, 50)),
             "game_over_home": Button(200, 600, 200, 50, "Main Menu", (255, 255, 255), (255, 0, 0))
         }
