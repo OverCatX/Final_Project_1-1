@@ -55,7 +55,9 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
     ```shell
     python --version
     ```
-3. Run Game:\
+3. Install Pygame:
+    <sub>Use pip to install Pygame, which is required for this project.</sub>
+4. Run Game:\
     <sub>Execute the main file to start the game:</sub>
     ``` shell
     python padball_game.py
@@ -80,6 +82,13 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 - Expected Outputs:
     - Real-time score updates as you hit mystery boxes or activate bonuses.
 
+For a detailed walkthrough of the gameplay, watch the demo video.
+
+## Project Design and Implementation
+
+
 ## Project Sophistication Level
 **Rating: 90**
 - Reason: Includes dynamic gameplay with multiple event-driven mechanics and object interactions. Features bonus events, a leaderboard system, and progressive difficulty, making it more advanced than basic pong games but not as complex as multi-object simulations like snooker.
+
+## Demo Video
