@@ -118,7 +118,7 @@ For a detailed walkthrough of the gameplay, watch the demo video.
 
 - ### Class Descriptions:
     - **PadBallGame:** 
-    - **FloatingObject Class:** 
+    - **FloatingObject:** 
       - The FloatingObject class serves as a base class for objects that have movement behavior within a bounded 2D space (such as the screen). It provides shared functionality for updating position, detecting screen-edge collisions, and rendering itself on the screen.
       - **Key Attributes:**
         - size: Radius of the floating object (circle).
