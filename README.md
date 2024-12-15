@@ -1,4 +1,4 @@
-# PadGameBall
+# Padball: The Ultimate Paddle-Bouncing Game
 
 ## Description
 
@@ -19,3 +19,29 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
     - Adds a layer of strategy as the player decides whether to focus on mystery boxes or simply keep the ball in play.
 
 ### Bonus Events:
+- Double Points: 
+    - 5 seconds bonus to double the points scored.
+- Triple Points:
+    - 5 seconds bonus to triple the points scored.
+- Slow Ball:
+    - 10 seconds momentarily slows down the ball for precise control. 
+- Paddle Transformations:
+    - 5 seconds change paddle size or shape for additional challenges.
+- Save Ball Paddle:
+    - Adds a safety net for 5 seconds.
+
+### Leaderboard System:
+- Compete for the top score with other players.
+- Automatically records and displays the top 10 best scores after every game.
+- Saves best scores locally, ensuring your progress is never lost.
+
+### Progressive Difficulty:
+- The game introduces faster ball speeds and fewer bonuses over time.
+
+### Friendly-Controls:
+- Intuitive controls suitable
+
+## How to Control
+- Use the Left Arrow Key (←) to move the paddle to the left.
+- Use the Right Arrow Key (→) to move the paddle to the right.
+- Your goal is to bounce the ball back into play and hit mystery boxes to score points.
