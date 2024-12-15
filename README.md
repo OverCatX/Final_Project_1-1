@@ -320,7 +320,7 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://www.
 ## Testing and Known Issues:
 - **Testing:**
   - Conducted multiple gameplay tests to ensure all features work as intended
-  - Verified bonus event triggers scoring mechanics, and learboard updates
+  - Verified bonus event triggers scoring mechanics, and leaderboard updates
 - **Known Bugs:**
   - Occasionally, rapid ball-paddle collisions may not go in direction correctly in high-speed(vx,vy > 20) modes.
 
