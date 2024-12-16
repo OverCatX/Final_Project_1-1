@@ -414,34 +414,48 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
 
 ## Code Implementation Details
 - **Baseline Code Modifications:**
-  - The ball_bouncing_sim_oo based Ball class served as a foundation for the design of the FloatingObject and Ball classes in PadBallGame. 
-  - The transition involved adapting the simulation logic from a Turtle graphics system to Pygame’s event-driven framework, while also incorporating additional features to enhance flexibility and interactivity. Below are the key aspects of this modification process:
+  - The `ball_bouncing_sim_oo`based `Ball` class served as the foundation for the design of the **FloatingObject** and **Ball** classes in **PadBallGame**. The transition involved adapting the simulation logic from a Turtle graphics system to Pygame’s event-driven framework, while also incorporating additional features to enhance flexibility and interactivity, including **event bonuses** that increase the number of balls on screen (e.g., **Ball x2** and **Ball x3** events). Below are the key aspects of this modification process:
   - **Decoupling Generic Behavior (FloatingObject)**
-    - **Purpose of Change:**
-      - The FloatingObject class was introduced as a general-purpose base class to represent any floating entity (not limited to balls). This abstraction allows for easier extension of functionality and reuse in various game elements.
-    - **Key Modifications:**
-      - Abstracted common properties like size, position (x, y), velocity (vx, vy), color, and screen boundaries.
-      - Included basic functionality for drawing (using Pygame’s draw.circle) and updating the object’s position.
-      - Simplified edge-collision detection and response for generic floating objects
-  - **Specializing Behavior (Ball class)**\
-    <sub>The Ball class builds on FloatingObject, integrating specialized logic for game-specific interactions, such as bouncing off paddles, mystery boxes, and sound effects.</sub>
-    - **Key Modifications Based on ball_bouncing_sim_oo:**
-      - **Collision Handling:**
-        - Retained and extended the physics-based collision logic, such as bouncing off walls and objects, but adapted it for Pygame.Screen coordinate system and event loop.
-        - Implemented paddle-specific collision handling, inspired by the Turtle Ball class but enhanced to handle edge cases (e.g., hitting paddle corners).
-      - **Interactions with New Elements:**
-        - Added methods to detect collisions with additional game elements (e.g., mystery boxes or save paddles).
-        - Introduced a parameterized updates() method to manage interactions dynamically, making it extensible for new features.
-      - **Sound Effects:**
-        - Incorporated Pygame’s sound functionality to enhance feedback during collisions, a feature absent in the Turtle Ball implementation.
-      - **Event Loop Compatibility:**
-        - Adapted movement logic to fit Pygame’s frame-based updates, replacing the time-driven simulation (dt) used in the Turtle class.
-  - **Differences and Improvements**
-    - **Physics Adaptation:**
-      - While the ball_bouncing_sim_oo Ball relied on explicit calculations for collision timing and response, the Padgame Ball class simplifies this by integrating with frame-based updates, enabling real-time responsiveness. This trade-off balances realism and performance for interactive gameplay.
-  - **Conclusion**
-    - The modifications involved rethinking the original ball-sim-oo-based Ball class to fit the PadballGame framework while expanding its capabilities for gameplay. By separating generic behaviors into FloatingObject and adding game-specific logic to Ball, the implementation became more modular, reusable, and adaptable for future extensions.
-    - This project only use Pygame library for draw any shape,screen interface and add sound on background screen or sound effect when ball hit paddle or wall etc..
+    - **Purpose of Change**:  
+      - The **FloatingObject** class was introduced as a general-purpose base class to represent any floating entity (not limited to balls). This abstraction allows for easier extension of functionality and reuse in various game elements.
+    - **Key Modifications**:
+      - **Abstracted common properties** like size, position (x, y), velocity (vx, vy), color, and screen boundaries.
+      - **Simplified edge-collision detection** and response for generic floating objects.
+      - **Added functionality** to manage multiple instances of **Ball** objects, as the game can spawn additional balls during special events (e.g., Ball x2, Ball x3).
+      - **Support for new behavior** introduced by event bonuses that spawn extra balls, ensuring that their interactions (collisions with other balls) are handled efficiently.
+
+  - **Specializing Behavior (Ball class)**
+     - The **Ball class** builds on **FloatingObject**, integrating specialized logic for game-specific interactions, such as bouncing off paddles, mystery boxes, and sound effects.
+     - **Key Modifications Based on `ball_bouncing_sim_oo`:**
+     - **Collision Handling**:
+       - Extended the **collision handling** to accommodate new game mechanics introduced by **event bonuses** like **Ball x2** and **Ball x3**.
+       - Implemented **ball-to-ball collision detection** to ensure that when new balls are spawned during these events, they interact with existing balls correctly.
+       - Kept the **physics-based collision logic** (e.g., bouncing off walls and objects) but adapted it for the Pygame event loop.
+       - Enhanced **paddle-specific collision handling** to manage edge cases (e.g., hitting paddle corners).
+   
+     - **Interactions with New Elements**:
+       - Modified methods to detect **collisions with new balls** spawned during event bonuses.
+       - The **ball-to-ball collision logic** was added, allowing newly spawned balls (from events like Ball x2 and Ball x3) to interact dynamically with each other.
+   
+     - **Event Loop Compatibility**:
+       - Integrated the **event bonuses** into the main event loop, triggering the spawning of additional balls when the events are active.
+       - Added **event duration management** to ensure that new balls are removed after the event ends.
+
+  - **Sound Effects**:
+     - Incorporated Pygame’s sound functionality to enhance feedback during **collisions**, including those between multiple balls. 
+     - **Event-triggered sound effects** were introduced to notify players when the **Ball x2** or **Ball x3** events occur, adding more immersion to the gameplay experience.
+
+  - **Physics Adaptation**:
+    - While the **ball_bouncing_sim_oo** Ball relied on explicit calculations for collision timing and response, the **PadBallGame** Ball class simplifies this by integrating with **frame-based updates**, enabling **real-time responsiveness**. This trade-off balances realism and performance for interactive gameplay.
+    - With **Ball x2** and **Ball x3** events, the game now manages multiple balls at once, adjusting **velocity**, **collision detection**, and **event handling** to ensure smooth and continuous gameplay.
+
+  - **Event Bonuses and Ball Collisions:**
+    - **Ball x2**: Doubles the number of balls in the game for a short period. When this event occurs, two new balls are spawned and added to the game’s ball list. These balls will interact with existing balls, and collision handling has been extended to accommodate this.
+    - **Ball x3**: Triples the number of balls on screen during its duration. Similar to **Ball x2**, the game spawns three new balls that interact with each other and the existing balls. Collisions between all balls are now handled dynamically by the `on_hit_balls()` method, which has been enhanced to account for this increase in objects on screen.
+    
+- **Conclusion:**
+  - The modifications made to the **PadBallGame** framework involve adapting the **ball_bouncing_sim_oo** `Ball` class to fit within a more interactive, event-driven system. By incorporating event bonuses like **Ball x2** and **Ball x3**, and expanding the **FloatingObject** and **Ball** classes to handle multiple balls, the game’s complexity and playability are enhanced. These changes introduce dynamic new challenges for players, making the game more engaging and exciting.
+  - This project only use Pygame library for draw any shape,screen interface and add sound on background screen or sound effect when ball hit paddle or wall etc
 
 ## Testing and Known Issues:
 - **Testing:**
