@@ -136,8 +136,8 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
             - ball_speed_origin: Base speed of the ball.
             - event_status: Indicates whether a special event is active.
             - event_id: Tracks the active event by ID (e.g., “#001” for x2 Score).
-          - events:
-            - A dictionary mapping event IDs (e.g., #001) to their properties (title and duration).
+        - events:
+          - A dictionary mapping event IDs (e.g., #001) to their properties (title and duration).
         - Game Entities
           - floating_balls: A list of FloatingObject instances with random properties (e.g., size, velocity, position).
           - ball_game: A Ball instance representing the main ball of the game.
