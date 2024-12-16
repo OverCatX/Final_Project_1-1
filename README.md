@@ -253,6 +253,8 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
           - Handles collisions with a special “save-ball paddle” when the save-ball feature is active.
         - on_hit_mystery_box(box, box_active):
           - Checks for collisions with a mystery box if it is active. If the ball collides with the box, the method returns True.
+        - on_hit_balls(balls):
+          - This method checks if the ball (calling the method) collides with any of the other balls in the balls list, and if a collision is detected, it adjusts the ball’s position and velocity accordingly. It returns True if a collision occurred and False if no collision was detected.
         - __str__():
           - Returns the string representation of the ball object as 'ball'.
       - **How These Classes Interact:**
