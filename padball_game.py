@@ -380,7 +380,7 @@ class PadBallGame:
                         if not self.game_data['ball_set']:
                             for ball in self.ball_game:
                                 ball.vx = self.game_data['ball_speed_origin']
-                                ballvy = self.game_data['ball_speed_origin']
+                                ball.vy = self.game_data['ball_speed_origin']
                             self.game_data['ball_set'] = True
                         self.game_data['event_ball_add'] = False
                 """"""
