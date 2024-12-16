@@ -469,10 +469,10 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
 - Reason: Includes dynamic gameplay with multiple event-driven mechanics and object interactions. Features bonus events, a leaderboard system, and progressive difficulty, making it more advanced than basic pong games but not as complex as multi-object simulations like snooker.
 
 ## Demo Video
-Watch the Project demonstration here: [PadballGame Demo Video](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
+Watch the Project demonstration here: [PadballGame Demo Video](https://youtu.be/NpTkezPJqF4)
 
 ## Submission
 - **GitHub Repository:** [PadballGame Repository](https://github.com/OverCatX/PadballGame-V.1/tree/main)
-- **Demo Video:** [PadballGame Demo Video](https://www.youtube.com/channel/UC-nrlXpjGtabRQYM1y010xA)
+- **Demo Video:** [PadballGame Demo Video](https://youtu.be/NpTkezPJqF4)
 
 Enjoy playing PadballGame ><
