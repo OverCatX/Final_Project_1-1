@@ -414,7 +414,7 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
     <sub>The Ball class builds on FloatingObject, integrating specialized logic for game-specific interactions, such as bouncing off paddles, mystery boxes, and sound effects.</sub>
     - **Key Modifications Based on ball_bouncing_sim_oo:**
       - **Collision Handling:**
-        - Retained and extended the physics-based collision logic, such as bouncing off walls and objects, but adapted it for Pygame’s coordinate system and event loop.
+        - Retained and extended the physics-based collision logic, such as bouncing off walls and objects, but adapted it for Pygame.Screen coordinate system and event loop.
         - Implemented paddle-specific collision handling, inspired by the Turtle Ball class but enhanced to handle edge cases (e.g., hitting paddle corners).
       - **Interactions with New Elements:**
         - Added methods to detect collisions with additional game elements (e.g., mystery boxes or save paddles).
@@ -428,7 +428,7 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
       - While the ball_bouncing_sim_oo Ball relied on explicit calculations for collision timing and response, the PadgameBall simplifies this by integrating with frame-based updates, enabling real-time responsiveness. This trade-off balances realism and performance for interactive gameplay.
   - **Conclusion**
     - The modifications involved rethinking the original ball-sim-oo-based Ball class to fit the PadballGame framework while expanding its capabilities for gameplay. By separating generic behaviors into FloatingObject and adding game-specific logic to Ball, the implementation became more modular, reusable, and adaptable for future extensions.
-    - This project only use Pygame library for draw any shape and add sound on background screen or sound effect when ball hit paddle or wall etc..
+    - This project only use Pygame library for draw any shape,screen interface and add sound on background screen or sound effect when ball hit paddle or wall etc..
 
 ## Testing and Known Issues:
 - **Testing:**
