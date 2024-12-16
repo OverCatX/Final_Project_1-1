@@ -117,7 +117,95 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
 ![UmlClass](https://github.com/OverCatX/PadballGame-V.1/blob/main/PadBallGame-UML.jpeg?raw=true)
 
 - ### Class Descriptions:
-    - **PadBallGame:** 
+    - **PadBallGame:**
+      - The PadBallGame class is a comprehensive implementation of a state-driven arcade game built. It manages the entire flow of the game, including the user interface, state transitions, gameplay mechanics, and interaction with the leaderboard database. This class is responsible for rendering different game screens, handling user inputs, updating game objects, and enforcing rules and conditions during gameplay. 
+      - **Key Attributes:**
+        - Screen Setup and Display
+          - screen_width: width of the game window in pixels (600).
+          - screen_height: height of the game window in pixels (800).
+          - screen: A pygame.Surface object representing the game window, created using pygame.display.set_mode().
+          - clock: A pygame.time.Clock instance used to control the frame rate of the game.
+        - Audio
+          - sound: An instance of the Sound class that handles game sound effects and background music.
+        - Game State and Data
+          - running: A boolean indicating whether the game is running.
+          - game_data: A dictionary that tracks the game’s state, settings, and events, including:A dictionary that tracks the game’s state, settings, and events, including:
+            - username: The player’s username.
+            - state: Current game screen (e.g., “home,” “play”).
+            - scores: Player’s current score.
+            - ball_speed_origin: Base speed of the ball.
+            - event_status: Indicates whether a special event is active.
+            - event_id: Tracks the active event by ID (e.g., “#001” for x2 Score).
+          - events:
+            - A dictionary mapping event IDs (e.g., #001) to their properties (title and duration).
+        - Game Entities
+          - floating_balls: A list of FloatingObject instances with random properties (e.g., size, velocity, position).
+          - ball_game: A Ball instance representing the main ball of the game.
+          - mystery_box: A MysteryBlock instance representing a special item that appears during the game.
+          - paddle: A Paddle instance representing the player’s paddle.
+          - wood_paddle: A secondary Paddle instance used for specific events (e.g., expanded paddle).
+          - save_ball_paddle: A Paddle instance acting as a safety net to save the ball under certain conditions.
+        - Fonts and Visual Elements
+          - fonts: A dictionary of pygame.font.Font objects, categorized by size (Large, Medium, Small) for rendering text on different screens.
+          - buttons: A dictionary of Button instances, each representing a button for game navigation (e.g., “Start Game,” “Leaderboard”).
+          - color_codes: A dictionary of common color names mapped to RGB tuples for easy reference in the game’s visual elements.
+      - **Key Methods:**
+        - turn_default_data: 
+          - A method resets the game state and reinitializes all game entities to their default configurations. It sets default values for scores, ball speed, event states, and screen color. Additionally, it regenerates floating objects, the main ball, and paddles with their initial properties, ensuring a fresh start for a new game or after a reset.
+        - authorization_screen:
+          - Displays a screen where players can enter a username.
+            - Accepts input using the keyboard (backspace to delete, enter to confirm).
+            - Validates the username length (maximum of 15 characters).
+            - Contains buttons to proceed to the next state (lobby) or return to the home screen.
+        - home_screen:
+          - Serves as the main menu screen for the game.
+            - Displays floating balls for a dynamic visual effect.
+            - Includes buttons for starting the game, viewing the leaderboard, viewing reports, or exiting.
+            - Handles user interactions for these buttons to transition between states.
+        - lobby_screen:
+          - Displays a welcome screen personalized with the player’s username.
+            - Contains floating ball animations for visual appeal.
+            - Prepares the player to transition to gameplay or other game states.
+        - on_game
+          - Represents the core gameplay loop.
+            - Resets game data and initializes the gameplay environment.
+            - Tracks player scores, manages events (e.g., mystery box bonuses), and updates visuals like paddles, balls, and score text.
+            - Handles collision detection and bonus events:
+              - Mystery box spawns randomly when the score exceeds a threshold.
+              - Various bonus effects (e.g., slowed ball, larger paddle, etc.) are triggered upon hitting the box.
+            - Checks for game-over conditions and updates the score.
+            - Allows paddle control via keyboard (left/right arrows).
+        - game_over
+          - Displays the game-over screen after losing.
+            - Shows the player’s score and best score.
+            - Provides buttons for restarting the game or returning to the home screen.
+        - leaderboard
+          - Displays the leaderboard with the top 10 players, fetched from the database.
+            - Highlights the current player if they are on the leaderboard.
+            - Includes a back button to return to the home screen.
+        - run
+          - The main game loop.
+            - Continuously checks the current game state (game_data['state']) and calls the corresponding screen method.
+            - Ensures the game flow is seamless between different states.
+            - Handles the exit condition by quitting the game when self.running is False.
+      - **Highlights:**
+        - **Dynamic Gameplay**:
+          - The on_game method dynamically adjusts gameplay based on events, such as bonuses for hitting the mystery box.
+        - **User Interactions:**
+          - Supports keyboard and mouse inputs for controlling gameplay and navigating menus.
+        - **State Management:**
+          - Uses game_data['state'] to determine which screen to display and transitions smoothly between states.
+        - **Visuals and Effects:**
+          - Includes floating balls, paddle animations, and text rendering for an engaging user experience.
+        - **Persistence:**
+          - Uses a database (PlayerDB) to fetch leaderboard data and save player scores.
+      - **General Flow:**
+        1. The game starts in the home screen.
+        2. The player can navigate to the authorization screen to enter their username.
+        3. Upon successful login, the game transitions to the lobby screen.
+        4. From the lobby, the player starts the gameplay (on_game), where scores are tracked, and events can occur.
+        5. The game ends in the game_over screen, with options to restart or return to the main menu.
+        6. Players can also view the leaderboard from the home screen.
     - **FloatingObject:** 
       - The FloatingObject class serves as a base class for objects that have movement behavior within a bounded 2D space (such as the screen). It provides shared functionality for updating position, detecting screen-edge collisions, and rendering itself on the screen.
       - **Key Attributes:**
