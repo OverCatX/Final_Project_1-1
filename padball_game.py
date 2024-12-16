@@ -49,7 +49,8 @@ class PadBallGame:
             'event_multiply_score': 1,
             'event_slowed_ball': False,
             'event_big_paddle': False,
-            'event_save_ball': False
+            'event_save_ball': False,
+            'event_ball_add': False
         }
         self.events = {
             '#001': {
@@ -71,6 +72,14 @@ class PadBallGame:
             '#005': {
                 'title': 'x3 Score',
                 'duration': 6
+            },
+            '#006': {
+                'title': 'balls x2',
+                'duration': 3
+            },
+            '#007': {
+                'title': 'balls x3',
+                'duration': 3
             }
         }
         self.player = None
@@ -80,9 +89,9 @@ class PadBallGame:
                              , color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                              , screen_width=self.screen_width, screen_height = self.screen_height)
                                for i in range(10)]
-        self.ball_game = Ball(20, x=self.screen_width //2, y=self.screen_height//2, vx=self.game_data['ball_speed_origin']
+        self.ball_game = [Ball(20, x=self.screen_width //2, y=self.screen_height//2, vx=self.game_data['ball_speed_origin']
                               , vy=self.game_data['ball_speed_origin'], color=(0,0,0)
-                              , screen_width=self.screen_width, screen_height=self.screen_height)
+                              , screen_width=self.screen_width, screen_height=self.screen_height)]
         self.mystery_box = MysteryBlock(50,50, 0, 0, (255,195,0))
 
         self.paddle = Paddle(150,30,(self.screen_width - 100 )//2, self.screen_height - 120,(0,0,255), speed=25)
@@ -143,10 +152,10 @@ class PadBallGame:
             random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
                                               , screen_width=self.screen_width, screen_height=self.screen_height)
                                for i in range(10)]
-        self.ball_game = Ball(20, x=self.screen_width // 2, y=50,
+        self.ball_game =[Ball(20, x=self.screen_width // 2, y=50,
                               vx=self.game_data['ball_speed_origin']
                               , vy=self.game_data['ball_speed_origin'], color=(0, 0, 0)
-                              , screen_width=self.screen_width, screen_height=self.screen_height)
+                              , screen_width=self.screen_width, screen_height=self.screen_height)]
         self.mystery_box = MysteryBlock(50, 50, 0, 0, (255, 195, 0))
 
         self.paddle = Paddle(150, 30, (self.screen_width - 100) // 2, self.screen_height - 120, (0, 0, 255), speed=25)
@@ -290,11 +299,12 @@ class PadBallGame:
             """ Mystery Box """
             if self.game_data['scores'] >= 2:
                 # If hit mystery_box
-                if self.ball_game.on_hit_mystery_box(self.mystery_box, self.game_data['mystery_box_active']):
-                    self.game_data['mystery_box_active'] = False
-                    self.game_data['event_status'] = True
-                    self.game_data['event_startTime'] = pygame.time.get_ticks() // 1000
-                    print('event started')
+                for ball in self.ball_game:
+                    if ball.on_hit_mystery_box(self.mystery_box, self.game_data['mystery_box_active']):
+                        self.game_data['mystery_box_active'] = False
+                        self.game_data['event_status'] = True
+                        self.game_data['event_startTime'] = pygame.time.get_ticks() // 1000
+                        print('event started')
 
                 # Box not active
                 if not self.game_data['mystery_box_active']:
@@ -330,6 +340,25 @@ class PadBallGame:
                         self.game_data['event_save_ball'] = True
                     elif self.game_data['event_id'] == '#005':
                         self.game_data['event_multiply_score'] = 3
+                    elif self.game_data['event_id'] == '#006':
+                        if not self.game_data['event_ball_add']:
+                            self.ball_game.append(Ball(20, x=self.screen_width // 2, y=50,
+                                  vx=self.game_data['ball_speed_origin']
+                                  , vy=self.game_data['ball_speed_origin'], color=(0, 0, 0)
+                                  , screen_width=self.screen_width, screen_height=self.screen_height))
+                            self.game_data['event_ball_add'] = True
+                    elif self.game_data['event_id'] == '#007':
+                        if not self.game_data['event_ball_add']:
+                            self.ball_game.append(Ball(20, x=self.screen_width // 2, y=50,
+                                  vx=self.game_data['ball_speed_origin']
+                                  , vy=self.game_data['ball_speed_origin'], color=(0, 0, 0)
+                                  , screen_width=self.screen_width, screen_height=self.screen_height))
+                            self.ball_game.append(Ball(20, x=self.screen_width // 2 - 50, y=30,
+                                                       vx=self.game_data['ball_speed_origin']
+                                                       , vy=self.game_data['ball_speed_origin'], color=(0, 0, 0)
+                                                       , screen_width=self.screen_width,
+                                                       screen_height=self.screen_height))
+                            self.game_data['event_ball_add'] = True
 
                     # Text Event Bonus ><
                     event_title = self.fonts['Small'].render(f"Bonus: {self.events[self.game_data['event_id']]['title']}"
@@ -349,9 +378,11 @@ class PadBallGame:
                         self.game_data['event_save_ball'] = False
                         # Return Ball v to origin ><
                         if not self.game_data['ball_set']:
-                            self.ball_game.vx = self.game_data['ball_speed_origin']
-                            self.ball_game.vy = self.game_data['ball_speed_origin']
+                            for ball in self.ball_game:
+                                ball.vx = self.game_data['ball_speed_origin']
+                                ballvy = self.game_data['ball_speed_origin']
                             self.game_data['ball_set'] = True
+                        self.game_data['event_ball_add'] = False
                 """"""
 
             """ Draw Wood Paddle """
@@ -363,23 +394,31 @@ class PadBallGame:
             """"""
 
             """ Draw ball """
-            self.ball_game.draw(self.screen)
-            # Wait ball falling for game_data['time_countdown'] seconds
-            if time.time() - self.game_data['time_start'] > self.game_data['time_countdown']:
-                self.ball_game.updates(self.paddle, self.wood_paddle, self.mystery_box, self.game_data['mystery_box_active']
-                                   , self.save_ball_paddle, self.game_data['event_save_ball'])
+            for i in range(len(self.ball_game)):
+                self.ball_game[i].draw(self.screen)
+                # Wait ball falling for game_data['time_countdown'] seconds
+                if time.time() - self.game_data['time_start'] > self.game_data['time_countdown']:
+                    self.ball_game[i].updates(self.paddle, self.wood_paddle, self.mystery_box,
+                            self.game_data['mystery_box_active'], self.save_ball_paddle, self.game_data['event_save_ball'], self.ball_game)
             """"""
 
             """ Check game over"""
-            if self.ball_game.y - self.screen_width > self.screen_height:
+            if not self.ball_game:
                 self.game_data['state'] = 'game_over'
+            for i in range(len(self.ball_game)):
+                # print(i, self.ball_game)
+                try:
+                    if self.ball_game[i].y - self.screen_width > self.screen_height:
+                        self.ball_game.pop(i)
+                except IndexError: 'nnoneee'
             """"""
 
             """ Slowed Ball (When on Event Bonus) """
             if self.game_data['event_slowed_ball'] and self.game_data['ball_set']:
                 # print('run slow', self.game_data['ball_set'])
-                self.ball_game.vx *= self.game_data['ball_speed_slow_multiply']
-                self.ball_game.vy *= self.game_data['ball_speed_slow_multiply']
+                for ball in self.ball_game:
+                    ball.vx *= self.game_data['ball_speed_slow_multiply']
+                    ball.vy *= self.game_data['ball_speed_slow_multiply']
                 self.game_data['ball_set'] = False
             """"""
 
@@ -398,12 +437,13 @@ class PadBallGame:
             """"""
 
             """ Updates score when ball hit wood_paddle"""
-            if self.ball_game.on_hit_wood_paddle(self.wood_paddle):
-                if self.game_data['scores'] >= int(self.player.highscore):
-                    self.game_data['scores'] += (1 * self.game_data['event_multiply_score'])
-                    self.player.updates_best_score(self.game_data['scores'])
-                else:
-                    self.game_data['scores'] += (1 * self.game_data['event_multiply_score'])
+            for ball in self.ball_game:
+                if ball.on_hit_wood_paddle(self.wood_paddle):
+                    if self.game_data['scores'] >= int(self.player.highscore):
+                        self.game_data['scores'] += (1 * self.game_data['event_multiply_score'])
+                        self.player.updates_best_score(self.game_data['scores'])
+                    else:
+                        self.game_data['scores'] += (1 * self.game_data['event_multiply_score'])
             """"""
 
             """ On prime score """
