@@ -425,7 +425,7 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
         - Adapted movement logic to fit Pygame’s frame-based updates, replacing the time-driven simulation (dt) used in the Turtle class.
   - **Differences and Improvements**
     - **Physics Adaptation:**
-      - While the ball_bouncing_sim_oo Ball relied on explicit calculations for collision timing and response, the PadgameBall simplifies this by integrating with frame-based updates, enabling real-time responsiveness. This trade-off balances realism and performance for interactive gameplay.
+      - While the ball_bouncing_sim_oo Ball relied on explicit calculations for collision timing and response, the Padgame Ball class simplifies this by integrating with frame-based updates, enabling real-time responsiveness. This trade-off balances realism and performance for interactive gameplay.
   - **Conclusion**
     - The modifications involved rethinking the original ball-sim-oo-based Ball class to fit the PadballGame framework while expanding its capabilities for gameplay. By separating generic behaviors into FloatingObject and adding game-specific logic to Ball, the implementation became more modular, reusable, and adaptable for future extensions.
     - This project only use Pygame library for draw any shape,screen interface and add sound on background screen or sound effect when ball hit paddle or wall etc..
