@@ -6,7 +6,7 @@ class Ball(FloatingObject):
         super().__init__(size, x, y, vx, vy, color, screen_width, screen_height)
 
     def updates(self, paddle=None, wood_paddle=None, mystery_box=None, box_active=False
-                , save_ball_paddle=None, save_ball_active=False):
+                , save_ball_paddle=None, save_ball_active=False, other_ball=None):
         super().updates()
         if paddle is not None:
             self.on_hit_paddle(paddle)
@@ -16,6 +16,8 @@ class Ball(FloatingObject):
             self.on_hit_mystery_box(mystery_box, box_active)
         if save_ball_paddle is not None:
             self.on_hit_save_paddle(save_ball_paddle, save_ball_active)
+        if other_ball is not None:
+            self.on_hit_balls(other_ball)
 
     def on_hit_screen_edge(self):
         if self.x - self.size < 0 or self.x + self.size > self.screen_width:
@@ -87,6 +89,36 @@ class Ball(FloatingObject):
                 self.x = paddle.x + paddle.width + self.size
             return True
         return False
+
+    def on_hit_balls(self, balls: list) -> bool:
+        collision_detected = False  # To track if a collision happens with any ball
+
+        for ball in balls:
+            # Avoid checking collision with itself
+            if ball is self:
+                continue
+
+            # Check if there's a collision with another ball
+            if (ball.x - self.size <= self.x <= ball.x + ball.size + self.size and
+                    ball.y - self.size <= self.y <= ball.y + ball.size + self.size):
+
+                # Handle collision based on the side of impact
+                if ball.y - self.size <= self.y <= ball.y:  # Top
+                    self.vy = -abs(self.vy)
+                    self.y = ball.y - self.size
+                elif ball.y + ball.size <= self.y <= ball.y + ball.size + self.size:  # Bottom
+                    self.vy = abs(self.vy)
+                    self.y = ball.y + ball.size + self.size
+                elif ball.x - self.size <= self.x <= ball.x:  # Left
+                    self.vx = -abs(self.vx)
+                    self.x = ball.x - self.size
+                elif ball.x + ball.size <= self.x <= ball.x + ball.size + self.size:  # Right
+                    self.vx = abs(self.vx)
+                    self.x = ball.x + ball.size + self.size
+
+                collision_detected = True  # Mark collision as true
+
+        return collision_detected
 
     def on_hit_mystery_box(self, box, box_active) -> bool:
         if box_active and box.x <= self.x <= box.x + box.width and box.y <= self.y <= box.y + box.width:
