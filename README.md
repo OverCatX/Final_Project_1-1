@@ -49,6 +49,17 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
 - The game introduces faster ball speeds and fewer bonuses over time.
 
 ### Advanced Mechanics:
+- **Increased Collision Handling**
+  - **Challenge:** Multiple balls increase the likelihood of simultaneous collisions between balls and paddles or between balls themselves.
+  - **Mechanics:**
+    - Ensure your collision detection can handle multiple objects efficiently.
+    - Prevent “chain reaction” bugs (e.g., one collision causing incorrect or infinite responses in others).
+    - Resolve overlaps to avoid balls getting stuck inside each other.
+- **Enhanced Ball Dynamics**
+  - **Challenge:** Tracking and updating the movement of multiple balls in real time.
+  - **Mechanics:**
+    - Use a loop to update the position and velocity of each ball during every frame.
+    - Maintain consistent ball speeds, applying friction or capping velocities to prevent runaway speeds.
 - **Randomized Elements:**
   - Mystery boxes and bonus events are randomized, ensuring that each game feels unique and keeps the player engaged.
 - **Difficulty Scaling:**
