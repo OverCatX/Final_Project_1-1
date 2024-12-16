@@ -359,7 +359,7 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
             - Login a Player
                 ``` shell
                 db = PlayerDB()
-                player = db.player_login('john_doe')
+                player = db.player_login('Bhumipat')
                 print(player)
                 ```
             - Update High Score
