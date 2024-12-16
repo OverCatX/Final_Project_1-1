@@ -19,21 +19,21 @@ Padball is an engaging and fast-paced game that combines skill, strategy, and re
     - Adds a layer of strategy as the player decides whether to focus on mystery boxes or simply keep the ball in play.
 
 ### Bonus Events:
-- **Double Points:**
-    - 10 seconds bonus to double the points scored.
-    - Encourages the player to aim for high-scoring plays while the bonus is active.
-- **Triple Points:**
-    - 6 seconds bonus to triple the points scored.
-    - Increases the excitement as players strive for their best moves during this period.
-- **Slow Ball:**
-    - 10 seconds momentarily slows down the ball for precise control.
-    - A helpful event for players when the game becomes fast-paced and challenging.
-- **Paddle Transformations:**
-    - 5 seconds change paddle size or shape for additional challenges.
-    - For instance, a full-width paddle makes it easier to keep the ball in play but may also require faster reflexes due to increased collision frequency.
-- **Save Ball Paddle:**
-    - Adds a safety net for 10 seconds.
-    - This paddle automatically saves the ball if it falls, preventing immediate game over and giving the player another chance to score.
+| Title            | Description                                                                                          | Duration (seconds) |
+|------------------|------------------------------------------------------------------------------------------------------|--------------------|
+| **x2 Score**     | Doubles the score for all points earned during the event duration.                                   | 10                 |
+| **Slowed Ball**  | Reduces the speed of the ball(s), making it easier to control gameplay.                              | 10                 |
+| **Big Paddle**   | Temporarily increases the size of the paddle for better control and easier ball deflection.          | 5                  |
+| **Save Ball**    | Automatically prevents the ball from falling off once during the event duration.                     | 10                 |
+| **x3 Score**     | Triples the score for all points earned during the event duration.                                   | 6                  |
+| **Balls x2**     | Introduces an additional ball into gameplay, increasing the difficulty.                              | -                  |
+| **Balls x3**     | Introduces two additional balls into gameplay, significantly increasing the challenge.               | -                  |
+
+**How Events Work:**
+- **Activation:** Events are triggered based on game mechanics (e.g., power-ups or random timers).
+- **Duration:** Each event lasts for a limited time as specified in the table.
+- **Stacking:** Some events, like Balls x2 and Balls x3, stack and can create chaotic and challenging gameplay.
+
 
 ### Leaderboard System:
 - Compete for the top score with other players.
