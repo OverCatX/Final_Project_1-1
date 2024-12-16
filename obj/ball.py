@@ -91,22 +91,17 @@ class Ball(FloatingObject):
         return False
 
     def on_hit_balls(self, balls: list) -> bool:
-        collision_detected = False  # To track if a collision happens with any ball
-
+        collision_detected = False 
         for ball in balls:
-            # Avoid checking collision with itself
+            # Avoid collision itself
             if ball is self:
                 continue
-
-            # Check if there's a collision with another ball
             if (ball.x - self.size <= self.x <= ball.x + ball.size + self.size and
                     ball.y - self.size <= self.y <= ball.y + ball.size + self.size):
-
-                # Handle collision based on the side of impact
-                if ball.y - self.size <= self.y <= ball.y:  # Top
+                if ball.y - self.size <= self.y <= ball.y: 
                     self.vy = -abs(self.vy)
                     self.y = ball.y - self.size
-                elif ball.y + ball.size <= self.y <= ball.y + ball.size + self.size:  # Bottom
+                elif ball.y + ball.size <= self.y <= ball.y + ball.size + self.size:
                     self.vy = abs(self.vy)
                     self.y = ball.y + ball.size + self.size
                 elif ball.x - self.size <= self.x <= ball.x:  # Left
@@ -115,9 +110,7 @@ class Ball(FloatingObject):
                 elif ball.x + ball.size <= self.x <= ball.x + ball.size + self.size:  # Right
                     self.vx = abs(self.vx)
                     self.x = ball.x + ball.size + self.size
-
-                collision_detected = True  # Mark collision as true
-
+                collision_detected = True
         return collision_detected
 
     def on_hit_mystery_box(self, box, box_active) -> bool:
