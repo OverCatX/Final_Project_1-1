@@ -427,19 +427,19 @@ For a detailed walkthrough of the gameplay, watch the [demo video.](https://gith
   - **Specializing Behavior (Ball class)**
      - The **Ball class** builds on **FloatingObject**, integrating specialized logic for game-specific interactions, such as bouncing off paddles, mystery boxes, and sound effects.
      - **Key Modifications Based on `ball_bouncing_sim_oo`:**
-     - **Collision Handling**:
-       - Extended the **collision handling** to accommodate new game mechanics introduced by **event bonuses** like **Ball x2** and **Ball x3**.
-       - Implemented **ball-to-ball collision detection** to ensure that when new balls are spawned during these events, they interact with existing balls correctly.
-       - Kept the **physics-based collision logic** (e.g., bouncing off walls and objects) but adapted it for the Pygame event loop.
-       - Enhanced **paddle-specific collision handling** to manage edge cases (e.g., hitting paddle corners).
+       - **Collision Handling**:
+         - Extended the **collision handling** to accommodate new game mechanics introduced by **event bonuses** like **Ball x2** and **Ball x3**.
+         - Implemented **ball-to-ball collision detection** to ensure that when new balls are spawned during these events, they interact with existing balls correctly.
+         - Kept the **physics-based collision logic** (e.g., bouncing off walls and objects) but adapted it for the Pygame event loop.
+         - Enhanced **paddle-specific collision handling** to manage edge cases (e.g., hitting paddle corners).
    
-     - **Interactions with New Elements**:
-       - Modified methods to detect **collisions with new balls** spawned during event bonuses.
-       - The **ball-to-ball collision logic** was added, allowing newly spawned balls (from events like Ball x2 and Ball x3) to interact dynamically with each other.
+       - **Interactions with New Elements**:
+         - Modified methods to detect **collisions with new balls** spawned during event bonuses.
+         - The **ball-to-ball collision logic** was added, allowing newly spawned balls (from events like Ball x2 and Ball x3) to interact dynamically with each other.
    
-     - **Event Loop Compatibility**:
-       - Integrated the **event bonuses** into the main event loop, triggering the spawning of additional balls when the events are active.
-       - Added **event duration management** to ensure that new balls are removed after the event ends.
+       - **Event Loop Compatibility**:
+         - Integrated the **event bonuses** into the main event loop, triggering the spawning of additional balls when the events are active.
+         - Added **event duration management** to ensure that new balls are removed after the event ends.
 
   - **Sound Effects**:
      - Incorporated Pygame’s sound functionality to enhance feedback during **collisions**, including those between multiple balls. 
